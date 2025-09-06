@@ -3,11 +3,42 @@
     "amar",
     "amarhazem",
     "hazem",
-    "turborepo"
+    "payloadcms",
+    "turborepo",
+    "unrs"
   ],
+  "diffEditor.codeLens": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.sortMembers": "explicit"
+  },
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.guides.indentation": true,
+  "editor.insertSpaces": true,
+  "editor.minimap.enabled": true,
+  "editor.renderFinalNewline": "on",
+  "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
+  "editor.trimAutoWhitespace": true,
+  "editor.wordWrap": "on",
   "eslint.workingDirectories": [
     {
       "mode": "auto"
     }
-  ]
+  ],
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "npm.packageManager": "pnpm",
+  "scm.defaultViewMode": "tree",
+  "typescript.preferences.autoImportSpecifierExcludeRegexes": ["^@mui/[^/]+$"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
