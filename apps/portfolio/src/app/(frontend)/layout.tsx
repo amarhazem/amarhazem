@@ -1,13 +1,18 @@
 import { theme } from "@/utils/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { ThemeProvider } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { type ReactNode } from "react";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
-export const metadata = {
+export const metadata: Metadata = {
   description: "Amar Hazem | Full Stack Developer",
   title: "Amar Hazem | Full Stack Developer",
 };
@@ -38,7 +43,14 @@ export default async function RootLayout({
               }}
             />
             <SpeedInsights />
-            {children}
+            <AppBar position="sticky">
+              <Toolbar sx={{ alignItems: "stretch" }}>
+                <Button color="inherit" href="/" sx={{ fontSize: "1.5rem" }}>
+                  Amar Hazem
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <Box sx={{ flexGrow: 1 }}>{children}</Box>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
