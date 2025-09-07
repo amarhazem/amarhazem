@@ -15,7 +15,7 @@
     "typescript": "5.9.2"
   },
   "engines": {
-    "node": "22.19.0"
+    "node": "22.x"
   },
   "homepage": "https://amarhazem.com",
   "keywords": [
@@ -48,5 +48,6 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint"
   },
+  "type": "module",
   "version": "2025.9.0"
 }
