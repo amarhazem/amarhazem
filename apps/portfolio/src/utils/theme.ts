@@ -2,6 +2,7 @@
 
 import { createTheme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
+import Link from "next/link";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -9,6 +10,20 @@ const roboto = Roboto({
 });
 
 export const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        LinkComponent: Link,
+      },
+    },
+  },
   palette: {
     primary: {
       main: "#D21DF7",
