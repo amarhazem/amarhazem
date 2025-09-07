@@ -11,6 +11,13 @@ const roboto = Roboto({
 
 export const theme = createTheme({
   components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          zIndex: theme.zIndex.drawer + 1,
+        }),
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -19,6 +26,16 @@ export const theme = createTheme({
       },
     },
     MuiButtonBase: {
+      defaultProps: {
+        LinkComponent: Link,
+      },
+    },
+    MuiIconButton: {
+      defaultProps: {
+        LinkComponent: Link,
+      },
+    },
+    MuiListItemButton: {
       defaultProps: {
         LinkComponent: Link,
       },
