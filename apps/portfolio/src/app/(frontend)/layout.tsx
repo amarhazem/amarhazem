@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type ReactNode } from "react";
 
@@ -16,6 +17,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Analytics />
         <SpeedInsights />
         <main>{children}</main>
       </body>
