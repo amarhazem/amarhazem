@@ -40,6 +40,11 @@ export const theme = createTheme({
         LinkComponent: Link,
       },
     },
+    MuiMenuItem: {
+      defaultProps: {
+        component: Link,
+      },
+    },
   },
   palette: {
     primary: {

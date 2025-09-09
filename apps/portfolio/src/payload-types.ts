@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    apps: App;
     media: Media;
     'social-networks': SocialNetwork;
     users: User;
@@ -76,6 +77,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    apps: AppsSelect<false> | AppsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'social-networks': SocialNetworksSelect<false> | SocialNetworksSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -114,6 +116,20 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apps".
+ */
+export interface App {
+  id: number;
+  icon: string;
+  name: string;
+  position: number;
+  url: string;
+  viewBox: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -180,6 +196,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'apps';
+        value: number | App;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -232,6 +252,19 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apps_select".
+ */
+export interface AppsSelect<T extends boolean = true> {
+  icon?: T;
+  name?: T;
+  position?: T;
+  url?: T;
+  viewBox?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
