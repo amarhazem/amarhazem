@@ -6,6 +6,7 @@ import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
+import { Apps } from "./collections/Apps";
 import { Media } from "./collections/Media";
 import { SocialNetworks } from "./collections/SocialNetworks";
 import { Users } from "./collections/Users";
@@ -21,7 +22,7 @@ export default buildConfig({
     },
     user: Users.slug,
   },
-  collections: [Media, SocialNetworks, Users],
+  collections: [Apps, Media, SocialNetworks, Users],
   db: postgresAdapter({
     pool: {
       connectionString: env.DATABASE_URL,

@@ -1,4 +1,5 @@
-import SocialNetworks from "@/components/social-networks";
+import Apps from "@/components/apps/apps";
+import SocialNetworks from "@/components/social-networks/social-networks";
 import { theme } from "@/utils/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import AppBar from "@mui/material/AppBar";
@@ -46,11 +47,12 @@ export default async function RootLayout({
             <SpeedInsights />
             <AppBar position="sticky">
               <Toolbar sx={{ alignItems: "stretch" }}>
-                <Button color="inherit" href="/" sx={{ fontSize: "1.5rem" }}>
+                <Button color="inherit" href="/" sx={{ fontSize: "1.5rem", textWrap: "nowrap" }}>
                   Amar Hazem
                 </Button>
                 <Box sx={{ flexGrow: 1 }} />
                 <SocialNetworks />
+                <Apps />
               </Toolbar>
             </AppBar>
             <Box component="main" sx={{ flexGrow: 1 }}>
