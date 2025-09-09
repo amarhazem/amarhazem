@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     media: Media;
+    'social-networks': SocialNetwork;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -76,6 +77,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     media: MediaSelect<false> | MediaSelect<true>;
+    'social-networks': SocialNetworksSelect<false> | SocialNetworksSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -134,6 +136,20 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-networks".
+ */
+export interface SocialNetwork {
+  id: number;
+  icon: string;
+  name: string;
+  position: number;
+  url: string;
+  viewBox: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -166,6 +182,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'social-networks';
+        value: number | SocialNetwork;
       } | null)
     | ({
         relationTo: 'users';
@@ -230,6 +250,19 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-networks_select".
+ */
+export interface SocialNetworksSelect<T extends boolean = true> {
+  icon?: T;
+  name?: T;
+  position?: T;
+  url?: T;
+  viewBox?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
