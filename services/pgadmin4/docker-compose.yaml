@@ -1,0 +1,24 @@
+services:
+  pgadmin4:
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-pgadmin4@amarhazem.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-pgadmin4}
+      - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT:-5050}
+      - PGADMIN_SERVER_MODE=${PGADMIN_SERVER_MODE:-false}
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5050"]
+      timeout: 5s
+    image: dpage/pgadmin4:${PGADMIN4_VERSION:-9.8.0}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pgadmin4.rule=Host(`pgadmin4.amarhazem.localtest.me`)"
+      - "traefik.http.routers.pgadmin4.entrypoints=web"
+      - "traefik.http.services.pgadmin4.loadbalancer.server.port=5050"
+    networks:
+      - network
+    restart: unless-stopped
+    volumes:
+      - pgadmin4:/var/lib/pgadmin
+      - ./servers.json:/pgadmin4/servers.json
