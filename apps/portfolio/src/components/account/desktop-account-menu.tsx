@@ -3,6 +3,9 @@
 import type { Auth, User } from "@/payload-types";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import DevicesIcon from "@mui/icons-material/Devices";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -10,6 +13,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { useColorScheme } from "@mui/material/styles";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -21,6 +27,8 @@ interface DesktopAccountMenuProps {
 export default function DesktopAccountMenu({
   auth,
 }: DesktopAccountMenuProps): ReactNode {
+  const { mode, setMode } = useColorScheme();
+
   const logout = async (): Promise<void> => {
     await fetch("/api/users/logout", {
       method: "POST",
@@ -28,6 +36,13 @@ export default function DesktopAccountMenu({
         "Content-Type": "application/json",
       },
     });
+  };
+
+  const switchThemeMode = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    newMode: any,
+  ): void => {
+    setMode(newMode);
   };
 
   return (
@@ -59,6 +74,25 @@ export default function DesktopAccountMenu({
             }}
             {...bindMenu(popupState)}
           >
+            <MenuItem sx={{ display: "flex", gap: "1rem" }}>
+              <ToggleButtonGroup
+                aria-label="theme mode"
+                exclusive
+                onChange={switchThemeMode}
+                value={mode}
+              >
+                <ToggleButton aria-label="system" value="system">
+                  <DevicesIcon />
+                </ToggleButton>
+                <ToggleButton aria-label="light" value="light">
+                  <LightModeIcon />
+                </ToggleButton>
+                <ToggleButton aria-label="dark" value="dark">
+                  <DarkModeIcon />
+                </ToggleButton>
+              </ToggleButtonGroup>
+              <ListItemText primary="Theme Mode" />
+            </MenuItem>
             {!!auth.user && (
               <MenuItem component={Link} href="/admin">
                 <ListItemIcon>

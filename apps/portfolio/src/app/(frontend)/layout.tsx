@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
+import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import { ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import { Analytics } from "@vercel/analytics/next";
@@ -28,7 +29,7 @@ export default async function RootLayout({
   children,
 }: RootLayoutProps): Promise<ReactNode> {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
@@ -45,6 +46,7 @@ export default async function RootLayout({
                 },
               }}
             />
+            <InitColorSchemeScript attribute="class" />
             <SpeedInsights />
             <AppBar position="sticky">
               <Toolbar sx={{ alignItems: "stretch" }}>
