@@ -1,6 +1,6 @@
 "use client";
 
-import { createTheme } from "@mui/material/styles";
+import { createTheme, type Theme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
 import Link from "next/link";
 
@@ -9,11 +9,12 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-export const theme = createTheme({
+export const theme: Theme = createTheme({
+  colorSchemes: { dark: true, light: true },
   components: {
     MuiAppBar: {
       styleOverrides: {
-        root: ({ theme }) => ({
+        root: ({ theme }: any): any => ({
           zIndex: theme.zIndex.drawer + 1,
         }),
       },
@@ -40,6 +41,9 @@ export const theme = createTheme({
         LinkComponent: Link,
       },
     },
+  },
+  cssVariables: {
+    colorSchemeSelector: "class",
   },
   palette: {
     primary: {
