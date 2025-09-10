@@ -1,3 +1,4 @@
+import Account from "@/components/account/account";
 import Apps from "@/components/apps/apps";
 import SocialNetworks from "@/components/social-networks/social-networks";
 import { theme } from "@/utils/theme";
@@ -47,12 +48,17 @@ export default async function RootLayout({
             <SpeedInsights />
             <AppBar position="sticky">
               <Toolbar sx={{ alignItems: "stretch" }}>
-                <Button color="inherit" href="/" sx={{ fontSize: "1.5rem", textWrap: "nowrap" }}>
+                <Button
+                  color="inherit"
+                  href="/"
+                  sx={{ fontSize: "1.5rem", textWrap: "nowrap" }}
+                >
                   Amar Hazem
                 </Button>
                 <Box sx={{ flexGrow: 1 }} />
                 <SocialNetworks />
                 <Apps />
+                <Account />
               </Toolbar>
             </AppBar>
             <Box component="main" sx={{ flexGrow: 1 }}>
