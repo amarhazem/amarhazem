@@ -464,6 +464,7 @@ export interface Media {
    * Usage rights for this media
    */
   usageRights?: ('all-rights' | 'creative-commons' | 'custom' | 'fair-use' | 'public-domain') | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2997,6 +2998,7 @@ export interface MediaSelect<T extends boolean = true> {
         id?: T;
       };
   usageRights?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
