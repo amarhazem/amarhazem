@@ -1,6 +1,6 @@
 {
   "author": {
-    "email": "amarhazem@icloud.com",
+    "email": "amar.hazem@icloud.com",
     "name": "Amar Hazem",
     "url": "https://amarhazem.com"
   },
@@ -15,7 +15,7 @@
     "reverse proxy",
     "traefik"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "name": "@ahs/traefik",
   "packageManager": "pnpm@10.15.1",
   "private": true,

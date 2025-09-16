@@ -3,6 +3,7 @@ import { z } from "zod";
 const envSchema = z.object({
   DATABASE_URL: z.string(),
   PAYLOAD_SECRET: z.string(),
+  RESEND_API_KEY: z.string(),
 });
 
 const parsed = envSchema.safeParse(process.env);
