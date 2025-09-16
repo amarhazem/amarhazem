@@ -123,8 +123,8 @@ export const Media: CollectionConfig = {
     },
   ],
   labels: {
-    singular: "Medium",
     plural: "Media",
+    singular: "Medium",
   },
   slug: "media",
   upload: {
@@ -150,7 +150,6 @@ export const Media: CollectionConfig = {
       },
     ],
     mimeTypes: ["application/pdf", "image/*", "video/*"],
-    staticDir: "media",
   },
   versions: {
     drafts: true,
