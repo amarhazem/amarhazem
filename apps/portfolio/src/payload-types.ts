@@ -68,8 +68,19 @@ export interface Config {
   blocks: {};
   collections: {
     apps: App;
+    'blog-posts': BlogPost;
+    categories: Category;
+    companies: Company;
+    education: Education;
+    experience: Experience;
+    institutions: Institution;
     media: Media;
+    pages: Page;
+    projects: Project;
+    services: Service;
+    skills: Skill;
     'social-networks': SocialNetwork;
+    testimonials: Testimonial;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,8 +89,19 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     apps: AppsSelect<false> | AppsSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    companies: CompaniesSelect<false> | CompaniesSelect<true>;
+    education: EducationSelect<false> | EducationSelect<true>;
+    experience: ExperienceSelect<false> | ExperienceSelect<true>;
+    institutions: InstitutionsSelect<false> | InstitutionsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    skills: SkillsSelect<false> | SkillsSelect<true>;
     'social-networks': SocialNetworksSelect<false> | SocialNetworksSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -88,8 +110,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -118,60 +144,257 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Manage external applications and services
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "apps".
  */
 export interface App {
   id: number;
+  /**
+   * Show this application in navigation
+   */
+  active?: boolean | null;
+  /**
+   * Hexadecimal color of the icon
+   */
+  color?: string | null;
+  /**
+   * Short description of the application
+   */
+  description?: string | null;
+  /**
+   * SVG icon code (without <svg> tags)
+   */
   icon: string;
+  /**
+   * Display name of the application
+   */
   name: string;
+  /**
+   * Open link in a new tab
+   */
+  openInNewTab?: boolean | null;
+  /**
+   * Display order (smaller = higher)
+   */
   position: number;
+  /**
+   * Link to the application or profile
+   */
   url: string;
+  /**
+   * SVG icon viewBox
+   */
   viewBox: string;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
+ * Manage blog posts and articles
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "blog-posts".
  */
-export interface Media {
+export interface BlogPost {
   id: number;
-  alt: string;
+  /**
+   * Allow comments on this post
+   */
+  allowComments?: boolean | null;
+  /**
+   * Blog post author
+   */
+  author?: (number | null) | User;
+  /**
+   * Blog post categories
+   */
+  categories?: (number | Category)[] | null;
+  /**
+   * Main blog post content
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Short description for previews
+   */
+  excerpt?: string | null;
+  /**
+   * Mark as featured post
+   */
+  featured?: boolean | null;
+  /**
+   * Main image for the blog post
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Date when the post was published
+   */
+  publishedDate?: string | null;
+  /**
+   * Estimated reading time in minutes
+   */
+  readingTime?: number | null;
+  /**
+   * Related projects mentioned in the post
+   */
+  relatedProjects?: (number | Project)[] | null;
+  /**
+   * SEO settings for this blog post
+   */
+  seo?: {
+    /**
+     * Description for search engines (optional)
+     */
+    description?: string | null;
+    /**
+     * Keywords separated by commas
+     */
+    keywords?: string | null;
+    /**
+     * Image for social media sharing
+     */
+    ogImage?: (number | null) | Media;
+    /**
+     * Title for search engines (optional)
+     */
+    title?: string | null;
+  };
+  /**
+   * URL-friendly version of the title
+   */
+  slug?: string | null;
+  /**
+   * Publication status
+   */
+  status?: ('archived' | 'draft' | 'published') | null;
+  /**
+   * Blog post tags
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Blog post title
+   */
+  title: string;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+  _status?: ('draft' | 'published') | null;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "social-networks".
- */
-export interface SocialNetwork {
-  id: number;
-  icon: string;
-  name: string;
-  position: number;
-  url: string;
-  viewBox: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
+ * Manage user accounts and permissions
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
+  /**
+   * User's profile picture
+   */
+  avatar?: (number | null) | Media;
+  /**
+   * Short biography or description
+   */
+  bio?: string | null;
+  /**
+   * Name to display in the interface
+   */
+  displayName?: string | null;
+  /**
+   * User's first name
+   */
+  firstName?: string | null;
+  /**
+   * Last time the user logged in
+   */
+  lastLogin?: string | null;
+  /**
+   * User's last name
+   */
+  lastName?: string | null;
+  /**
+   * City, Country (optional)
+   */
+  location?: string | null;
+  /**
+   * Total number of logins
+   */
+  loginCount?: number | null;
+  /**
+   * Internal notes about this user (admin only)
+   */
+  notes?: string | null;
+  /**
+   * Contact phone number (optional)
+   */
+  phone?: string | null;
+  /**
+   * User preferences and settings
+   */
+  preferences?: {
+    /**
+     * Receive email notifications
+     */
+    emailNotifications?: boolean | null;
+    /**
+     * Preferred interface language
+     */
+    language?: ('en' | 'fr' | 'jp') | null;
+    /**
+     * User's timezone
+     */
+    timezone?: string | null;
+  };
+  /**
+   * User's role and permissions level
+   */
+  role?: ('admin' | 'author' | 'contributor' | 'editor' | 'subscriber') | null;
+  /**
+   * Social media profiles and links
+   */
+  socialLinks?:
+    | {
+        /**
+         * Social media platform name
+         */
+        platform: string;
+        /**
+         * Link to social media profile
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * User account status
+   */
+  userStatus?: ('active' | 'inactive' | 'pending' | 'suspended') | null;
+  /**
+   * Personal or professional website URL
+   */
+  website?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -189,6 +412,2175 @@ export interface User {
   password?: string | null;
 }
 /**
+ * Manage media files
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Alternative text for accessibility
+   */
+  alt: string;
+  /**
+   * Optional caption for the media
+   */
+  caption?: string | null;
+  /**
+   * Media category for organization
+   */
+  category?: ('documents' | 'icons' | 'images' | 'logos' | 'other' | 'videos') | null;
+  /**
+   * Copyright information
+   */
+  copyright?: string | null;
+  /**
+   * Name of the photographer or content creator
+   */
+  creator?: string | null;
+  /**
+   * Detailed description of the media content
+   */
+  description?: string | null;
+  /**
+   * Mark as featured media
+   */
+  featured?: boolean | null;
+  /**
+   * Make this media available for use
+   */
+  published?: boolean | null;
+  /**
+   * Tags to organize and search media
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Usage rights for this media
+   */
+  usageRights?: ('all-rights' | 'creative-commons' | 'custom' | 'fair-use' | 'public-domain') | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * Manage content categories
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  /**
+   * Name of the category
+   */
+  name: string;
+  /**
+   * URL-friendly version of the category name
+   */
+  slug?: string | null;
+  /**
+   * Brief description of the category
+   */
+  description?: string | null;
+  /**
+   * Hexadecimal color for the category
+   */
+  color?: string | null;
+  /**
+   * Icon class or emoji for the category
+   */
+  icon?: string | null;
+  /**
+   * Category image or illustration
+   */
+  image?: (number | null) | Media;
+  /**
+   * Type of content this category applies to
+   */
+  categoryType?: ('blog' | 'general' | 'project' | 'service' | 'skill') | null;
+  /**
+   * Parent category (for hierarchical categories)
+   */
+  parent?: (number | null) | Category;
+  /**
+   * Mark as featured category
+   */
+  featured?: boolean | null;
+  /**
+   * Show this category on the website
+   */
+  active?: boolean | null;
+  /**
+   * Order for displaying categories (smaller = higher)
+   */
+  displayOrder?: number | null;
+  /**
+   * SEO settings for this category
+   */
+  seo?: {
+    /**
+     * Title for search engines (optional)
+     */
+    title?: string | null;
+    /**
+     * Description for search engines (optional)
+     */
+    description?: string | null;
+    /**
+     * Keywords separated by commas
+     */
+    keywords?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage portfolio projects
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  /**
+   * Key challenges faced during the project
+   */
+  challenges?: string | null;
+  /**
+   * Client or company name (if applicable)
+   */
+  client?: (number | null) | Company;
+  /**
+   * Short description of the project
+   */
+  description?: string | null;
+  /**
+   * Detailed project description and features
+   */
+  detailedDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Project completion date
+   */
+  endDate?: string | null;
+  /**
+   * Mark as featured project
+   */
+  featured?: boolean | null;
+  /**
+   * Additional project images
+   */
+  gallery?:
+    | {
+        caption?: string | null;
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Link to the GitHub repository
+   */
+  githubUrl?: string | null;
+  /**
+   * Main project image or screenshot
+   */
+  image?: (number | null) | Media;
+  /**
+   * Name of the project
+   */
+  name: string;
+  /**
+   * Type of project
+   */
+  projectType?: ('api' | 'desktop-app' | 'game' | 'library' | 'mobile-app' | 'other' | 'web-app' | 'website') | null;
+  /**
+   * Live demo or project website URL
+   */
+  projectUrl?: string | null;
+  /**
+   * Make this project visible on the website
+   */
+  published?: boolean | null;
+  /**
+   * Your role in this project
+   */
+  role?: string | null;
+  /**
+   * Project results and achievements
+   */
+  results?: string | null;
+  /**
+   * SEO settings for this project
+   */
+  seo?: {
+    /**
+     * Description for search engines (optional)
+     */
+    description?: string | null;
+    /**
+     * Keywords separated by commas
+     */
+    keywords?: string | null;
+    /**
+     * Title for search engines (optional)
+     */
+    title?: string | null;
+  };
+  /**
+   * URL-friendly version of the project name
+   */
+  slug?: string | null;
+  /**
+   * Project start date
+   */
+  startDate?: string | null;
+  /**
+   * Current status of the project
+   */
+  projectStatus?: ('archived' | 'completed' | 'in-progress' | 'on-hold' | 'planned') | null;
+  /**
+   * Number of team members (if applicable)
+   */
+  teamSize?: number | null;
+  /**
+   * Technologies and tools used in this project
+   */
+  technologies?:
+    | {
+        /**
+         * Hexadecimal color for the technology
+         */
+        color?: string | null;
+        /**
+         * Name of the technology
+         */
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Tags to categorize and search projects
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage companies and organizations
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "companies".
+ */
+export interface Company {
+  id: number;
+  /**
+   * Show this company on the website
+   */
+  active?: boolean | null;
+  /**
+   * Number of employees
+   */
+  companySize?: ('1-10' | '11-50' | '51-200' | '201-500' | '501-1000' | '1000+') | null;
+  contactInfo?: {
+    /**
+     * Physical address
+     */
+    address?: string | null;
+    /**
+     * Main contact email
+     */
+    email?: string | null;
+    /**
+     * Contact phone number
+     */
+    phone?: string | null;
+  };
+  /**
+   * Brief description of the company
+   */
+  description?: string | null;
+  /**
+   * Detailed company information
+   */
+  detailedDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Mark as featured company
+   */
+  featured?: boolean | null;
+  /**
+   * Year the company was founded
+   */
+  foundedYear?: number | null;
+  /**
+   * Company headquarters location
+   */
+  headquarters?: string | null;
+  /**
+   * Company industry sector
+   */
+  industry?:
+    | (
+        | 'consulting'
+        | 'ecommerce'
+        | 'education'
+        | 'finance'
+        | 'government'
+        | 'healthcare'
+        | 'manufacturing'
+        | 'media'
+        | 'non-profit'
+        | 'other'
+        | 'real-estate'
+        | 'technology'
+      )
+    | null;
+  /**
+   * Company logo
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Name of the company or organization
+   */
+  name: string;
+  /**
+   * Projects completed for this company
+   */
+  projects?: (number | Project)[] | null;
+  /**
+   * URL-friendly version of the company name
+   */
+  slug?: string | null;
+  /**
+   * Social media links
+   */
+  socialMedia?: {
+    /**
+     * Facebook page URL
+     */
+    facebook?: string | null;
+    /**
+     * Instagram profile URL
+     */
+    instagram?: string | null;
+    /**
+     * LinkedIn company page URL
+     */
+    linkedin?: string | null;
+    /**
+     * Twitter handle or URL
+     */
+    twitter?: string | null;
+  };
+  /**
+   * Tags to categorize companies
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Testimonials from this company
+   */
+  testimonials?: (number | Testimonial)[] | null;
+  /**
+   * Company website URL
+   */
+  website?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage client testimonials and reviews
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  /**
+   * Full name of the client
+   */
+  clientName: string;
+  /**
+   * Profile photo of the client
+   */
+  clientPhoto?: (number | null) | Media;
+  /**
+   * Job title or position of the client
+   */
+  clientPosition?: string | null;
+  /**
+   * Company name where the client works
+   */
+  company?: string | null;
+  /**
+   * Company logo (optional)
+   */
+  companyLogo?: (number | null) | Media;
+  /**
+   * Company website URL (optional)
+   */
+  companyWebsite?: string | null;
+  /**
+   * The testimonial text from the client
+   */
+  testimonial: string;
+  /**
+   * Client rating (1-5 stars)
+   */
+  rating?: ('1' | '2' | '3' | '4' | '5') | null;
+  /**
+   * Related project (if applicable)
+   */
+  project?: (number | null) | Project;
+  /**
+   * Link to the project or case study
+   */
+  projectLink?: string | null;
+  /**
+   * Date when the testimonial was given
+   */
+  date?: string | null;
+  /**
+   * Type of service provided
+   */
+  serviceType?:
+    | ('consulting' | 'maintenance' | 'mobile-development' | 'other' | 'ui-ux-design' | 'web-development')
+    | null;
+  /**
+   * Duration of the project
+   */
+  projectDuration?: string | null;
+  /**
+   * Project budget range (optional)
+   */
+  projectBudget?: ('5k-10k' | '10k-25k' | '25k-50k' | '50k-100k' | 'not-disclosed' | 'over-100k' | 'under-5k') | null;
+  /**
+   * Mark as featured testimonial
+   */
+  featured?: boolean | null;
+  /**
+   * Show this testimonial on the website
+   */
+  published?: boolean | null;
+  /**
+   * Order for displaying testimonials (smaller = higher)
+   */
+  displayOrder?: number | null;
+  /**
+   * Social proof and verification details
+   */
+  socialProof?: {
+    /**
+     * Client's LinkedIn profile URL
+     */
+    linkedinProfile?: string | null;
+    /**
+     * Client's Twitter handle
+     */
+    twitterHandle?: string | null;
+    /**
+     * Mark if testimonial is verified
+     */
+    verified?: boolean | null;
+  };
+  /**
+   * Tags to categorize testimonials
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage education and certifications
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education".
+ */
+export interface Education {
+  id: number;
+  /**
+   * Academic achievements, honors, or awards
+   */
+  achievements?:
+    | {
+        achievement: string;
+        date?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Show this education on the website
+   */
+  active?: boolean | null;
+  /**
+   * Image of the certificate or degree
+   */
+  certificateImage?: (number | null) | Media;
+  /**
+   * Key courses or subjects studied
+   */
+  coursework?:
+    | {
+        courseName: string;
+        description?: string | null;
+        grade?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Currently pursuing this education
+   */
+  current?: boolean | null;
+  /**
+   * Degree, diploma, or qualification name
+   */
+  degree: string;
+  /**
+   * Description of the education program
+   */
+  description?: string | null;
+  /**
+   * Order for displaying education (smaller = higher)
+   */
+  displayOrder?: number | null;
+  /**
+   * Type of education or qualification
+   */
+  educationType?:
+    | (
+        | 'associate'
+        | 'bachelor'
+        | 'bootcamp'
+        | 'certificate'
+        | 'diploma'
+        | 'master'
+        | 'online-course'
+        | 'other'
+        | 'phd'
+        | 'workshop'
+      )
+    | null;
+  /**
+   * End date or graduation date
+   */
+  endDate?: string | null;
+  /**
+   * Mark as featured education
+   */
+  featured?: boolean | null;
+  /**
+   * Field or major of study
+   */
+  fieldOfStudy?: string | null;
+  /**
+   * Final grade, GPA, or result
+   */
+  grade?: string | null;
+  /**
+   * Educational institution where this degree was obtained
+   */
+  institution: number | Institution;
+  /**
+   * City, Country of the institution
+   */
+  location?: string | null;
+  /**
+   * Start date of the education program
+   */
+  startDate?: string | null;
+  /**
+   * Projects completed during this education
+   */
+  projects?: (number | Project)[] | null;
+  /**
+   * Skills acquired during this education
+   */
+  skillsLearned?: (number | Skill)[] | null;
+  /**
+   * Tags to categorize education
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage educational institutions, companies, and organizations
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "institutions".
+ */
+export interface Institution {
+  id: number;
+  /**
+   * Make this institution visible on the website
+   */
+  active?: boolean | null;
+  /**
+   * Contact information for the institution
+   */
+  contactInfo?: {
+    address?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  /**
+   * Country where the institution is based
+   */
+  country?: string | null;
+  /**
+   * Brief description of the institution
+   */
+  description?: string | null;
+  /**
+   * Detailed information about the institution
+   */
+  detailedDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Mark as featured institution
+   */
+  featured?: boolean | null;
+  /**
+   * Year the institution was founded
+   */
+  foundedYear?: number | null;
+  /**
+   * Additional images of the institution
+   */
+  gallery?:
+    | {
+        caption?: string | null;
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Industry or sector the institution operates in
+   */
+  industry?: string | null;
+  /**
+   * Size of the institution
+   */
+  institutionSize?: ('enterprise' | 'large' | 'medium' | 'startup' | 'small') | null;
+  /**
+   * Type of institution
+   */
+  institutionType?:
+    | ('company' | 'educational' | 'government' | 'non-profit' | 'organization' | 'research' | 'startup' | 'university')
+    | null;
+  /**
+   * Physical location or headquarters
+   */
+  location?: string | null;
+  /**
+   * Institution logo or emblem
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Name of the institution
+   */
+  name: string;
+  /**
+   * SEO settings for this institution
+   */
+  seo?: {
+    /**
+     * Description for search engines (optional)
+     */
+    description?: string | null;
+    /**
+     * Keywords separated by commas
+     */
+    keywords?: string | null;
+    /**
+     * Title for search engines (optional)
+     */
+    title?: string | null;
+  };
+  /**
+   * URL-friendly version of the institution name
+   */
+  slug?: string | null;
+  /**
+   * Social media profiles
+   */
+  socialMedia?:
+    | {
+        platform: 'facebook' | 'instagram' | 'linkedin' | 'twitter' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Tags to categorize and search institutions
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Official website URL
+   */
+  website?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage skills and competencies
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skills".
+ */
+export interface Skill {
+  id: number;
+  /**
+   * Show this skill in the skills section
+   */
+  active?: boolean | null;
+  /**
+   * Skill category for organization
+   */
+  category?:
+    | (
+        | 'backend'
+        | 'database'
+        | 'design'
+        | 'devops'
+        | 'frameworks'
+        | 'frontend'
+        | 'fullstack'
+        | 'languages'
+        | 'mobile'
+        | 'other'
+        | 'tools'
+      )
+    | null;
+  /**
+   * Certifications related to this skill
+   */
+  certifications?:
+    | {
+        certificateUrl?: string | null;
+        date?: string | null;
+        expiryDate?: string | null;
+        name: string;
+        organization: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hexadecimal color for the skill
+   */
+  color?: string | null;
+  /**
+   * Brief description of your experience with this skill
+   */
+  description?: string | null;
+  /**
+   * Order for displaying skills (smaller = higher)
+   */
+  displayOrder?: number | null;
+  /**
+   * Mark as featured skill
+   */
+  featured?: boolean | null;
+  /**
+   * Icon class, emoji, or SVG code for the skill
+   */
+  icon?: string | null;
+  /**
+   * Resources used to learn this skill
+   */
+  learningResources?:
+    | {
+        type: 'book' | 'course' | 'documentation' | 'other' | 'tutorial' | 'video';
+        title: string;
+        url?: string | null;
+        provider?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Your proficiency level in this skill
+   */
+  level?: ('advanced' | 'beginner' | 'expert' | 'intermediate') | null;
+  /**
+   * Name of the skill
+   */
+  name: string;
+  /**
+   * Skill level as percentage (1-100)
+   */
+  percentage?: number | null;
+  /**
+   * Projects where this skill was used
+   */
+  projectsUsedIn?: (number | Project)[] | null;
+  /**
+   * Tags to categorize and search skills
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Number of years working with this skill
+   */
+  yearsExperience?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage work experience and employment history
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience".
+ */
+export interface Experience {
+  id: number;
+  /**
+   * Key achievements in this role
+   */
+  achievements?:
+    | {
+        achievement: string;
+        description?: string | null;
+        /**
+         * Quantifiable impact
+         */
+        impact?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Show this experience on the website
+   */
+  active?: boolean | null;
+  /**
+   * Company where you worked
+   */
+  company?: (number | null) | Company;
+  /**
+   * Currently working in this position
+   */
+  current?: boolean | null;
+  /**
+   * Brief description of the role
+   */
+  description?: string | null;
+  /**
+   * Detailed description of responsibilities and achievements
+   */
+  detailedDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Order for displaying experience (smaller = higher)
+   */
+  displayOrder?: number | null;
+  /**
+   * End date of employment
+   */
+  endDate?: string | null;
+  /**
+   * Type of employment
+   */
+  employmentType?:
+    | ('consulting' | 'contract' | 'freelance' | 'full-time' | 'internship' | 'other' | 'part-time' | 'volunteer')
+    | null;
+  /**
+   * Mark as featured experience
+   */
+  featured?: boolean | null;
+  /**
+   * Job title or position
+   */
+  jobTitle: string;
+  /**
+   * Work location (City, Country or Remote)
+   */
+  location?: string | null;
+  /**
+   * Projects worked on in this role
+   */
+  projects?: (number | Project)[] | null;
+  /**
+   * Reason for leaving this position (optional)
+   */
+  reasonForLeaving?: string | null;
+  /**
+   * Professional references from this experience
+   */
+  references?:
+    | {
+        email?: string | null;
+        name: string;
+        phone?: string | null;
+        position?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Work arrangement
+   */
+  remoteWork?: ('hybrid' | 'on-site' | 'remote') | null;
+  /**
+   * Who you reported to
+   */
+  reportingTo?: string | null;
+  /**
+   * Key responsibilities in this role
+   */
+  responsibilities?:
+    | {
+        description?: string | null;
+        responsibility: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Salary range (optional, e.g. $80k-100k)
+   */
+  salaryRange?: string | null;
+  /**
+   * Skills developed during this experience
+   */
+  skillsDeveloped?: (number | Skill)[] | null;
+  /**
+   * Start date of employment
+   */
+  startDate: string;
+  /**
+   * Size of the team you worked with
+   */
+  teamSize?: number | null;
+  /**
+   * Technologies and tools used in this role
+   */
+  technologiesUsed?: (number | Skill)[] | null;
+  /**
+   * Tags to categorize experience
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage site pages
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  /**
+   * Page author
+   */
+  author?: string | null;
+  /**
+   * Short description of the page (optional)
+   */
+  excerpt?: string | null;
+  /**
+   * Main image of the page (optional)
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Page publication date
+   */
+  publishedDate?: string | null;
+  /**
+   * Compose the page with different sections
+   */
+  sections: (
+    | {
+        /**
+         * Additional images to illustrate the content
+         */
+        additionalImages?:
+          | {
+              caption?: string | null;
+              image: number | Media;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Main content of the section
+         */
+        body?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        /**
+         * Action button
+         */
+        cta: {
+          href: string;
+          label: string;
+          openInNewTab?: boolean | null;
+          style?: ('outlined' | 'primary' | 'secondary') | null;
+        };
+        /**
+         * Main title of the About section
+         */
+        heading: string;
+        /**
+         * Main skills to highlight
+         */
+        keySkills?:
+          | {
+              level?: ('advanced' | 'beginner' | 'expert' | 'intermediate') | null;
+              skill: string;
+              id?: string | null;
+            }[]
+          | null;
+        layout?: {
+          /**
+           * Hexadecimal background color (optional)
+           */
+          backgroundColor?: string | null;
+          contentAlign?: ('left' | 'center' | 'right') | null;
+          imagePosition?: ('bottom' | 'left' | 'right' | 'top') | null;
+        };
+        /**
+         * Profile photo or representative image
+         */
+        profileImage?: (number | null) | Media;
+        /**
+         * Statistics to display
+         */
+        stats?:
+          | {
+              /**
+               * Icon class or emoji
+               */
+              icon?: string | null;
+              /**
+               * Description of the statistic
+               */
+              label: string;
+              /**
+               * Numeric or text value
+               */
+              value: string;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Subtitle or hook (optional)
+         */
+        subtitle?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'about';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Select blog posts to display in this section
+         */
+        blogPosts?: (number | BlogPost)[] | null;
+        /**
+         * Description of the blog section
+         */
+        description?: string | null;
+        displayOptions?: {
+          /**
+           * Show only featured blog posts
+           */
+          featuredOnly?: boolean | null;
+          /**
+           * Number of posts per row (for grid/cards layout)
+           */
+          itemsPerRow?: ('1' | '2' | '3' | '4') | null;
+          /**
+           * How to display the blog posts
+           */
+          layout?: ('cards' | 'carousel' | 'grid' | 'list' | 'masonry') | null;
+          /**
+           * Maximum number of blog posts to display (leave empty for all)
+           */
+          limit?: number | null;
+          /**
+           * Show only published blog posts
+           */
+          publishedOnly?: boolean | null;
+          /**
+           * Display post authors
+           */
+          showAuthors?: boolean | null;
+          /**
+           * Display post categories
+           */
+          showCategories?: boolean | null;
+          /**
+           * Display publication dates
+           */
+          showDates?: boolean | null;
+          /**
+           * Display post excerpts
+           */
+          showExcerpts?: boolean | null;
+          /**
+           * Display featured images
+           */
+          showFeaturedImages?: boolean | null;
+          /**
+           * Display estimated reading time
+           */
+          showReadingTime?: boolean | null;
+          /**
+           * Display post tags
+           */
+          showTags?: boolean | null;
+        };
+        filterOptions?: {
+          /**
+           * Allow users to filter blog posts
+           */
+          enableFiltering?: boolean | null;
+          /**
+           * Allow filtering by author
+           */
+          filterByAuthor?: boolean | null;
+          /**
+           * Allow filtering by category
+           */
+          filterByCategory?: boolean | null;
+          /**
+           * Allow filtering by publication date
+           */
+          filterByDate?: boolean | null;
+          /**
+           * Allow filtering by tags
+           */
+          filterByTags?: boolean | null;
+        };
+        /**
+         * Main title of the blog section
+         */
+        heading: string;
+        pagination?: {
+          /**
+           * Enable pagination for blog posts
+           */
+          enabled?: boolean | null;
+          /**
+           * Number of posts per page
+           */
+          postsPerPage?: number | null;
+          /**
+           * Show 'Load More' button instead of page numbers
+           */
+          showLoadMore?: boolean | null;
+        };
+        cta?: {
+          /**
+           * Call to action button link
+           */
+          link?: string | null;
+          /**
+           * Show call to action button
+           */
+          showCta?: boolean | null;
+          /**
+           * Call to action button style
+           */
+          style?: ('outlined' | 'primary' | 'secondary') | null;
+          /**
+           * Call to action button text
+           */
+          text?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'blog-posts';
+      }
+    | {
+        /**
+         * Physical address (optional)
+         */
+        address?: string | null;
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Contact form configuration
+         */
+        contactForm?: {
+          /**
+           * Description text above the form
+           */
+          description?: string | null;
+          /**
+           * Show contact form in this section
+           */
+          enabled?: boolean | null;
+          /**
+           * Title for the contact form
+           */
+          title?: string | null;
+        };
+        /**
+         * Description of the contact section
+         */
+        description?: string | null;
+        /**
+         * Contact email address
+         */
+        email?: string | null;
+        /**
+         * Main title of the contact section
+         */
+        heading?: string | null;
+        /**
+         * Social media and contact links
+         */
+        links?:
+          | {
+              /**
+               * URL of the social link
+               */
+              href: string;
+              /**
+               * Icon class or emoji for the link
+               */
+              icon?: string | null;
+              /**
+               * Display text for the link
+               */
+              label: string;
+              /**
+               * Open link in a new tab
+               */
+              openInNewTab?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Contact phone number (optional)
+         */
+        phone?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contact';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Description of the education section
+         */
+        description?: string | null;
+        displayOptions?: {
+          /**
+           * Show only current education
+           */
+          currentOnly?: boolean | null;
+          /**
+           * Show only featured education items
+           */
+          featuredOnly?: boolean | null;
+          /**
+           * Number of items per row (for grid/cards layout)
+           */
+          itemsPerRow?: ('1' | '2' | '3') | null;
+          /**
+           * How to display the education items
+           */
+          layout?: ('cards' | 'grid' | 'list' | 'timeline') | null;
+          /**
+           * Maximum number of education items to display (leave empty for all)
+           */
+          limit?: number | null;
+          /**
+           * Display academic achievements
+           */
+          showAchievements?: boolean | null;
+          /**
+           * Display relevant coursework
+           */
+          showCoursework?: boolean | null;
+          /**
+           * Display education duration
+           */
+          showDuration?: boolean | null;
+          /**
+           * Display education type (Bachelor's, Master's, etc.)
+           */
+          showEducationType?: boolean | null;
+          /**
+           * Display final grade or GPA
+           */
+          showGrade?: boolean | null;
+          /**
+           * Display institution logos
+           */
+          showInstitutionLogos?: boolean | null;
+          /**
+           * Display institution location
+           */
+          showLocation?: boolean | null;
+          /**
+           * Display skills learned during education
+           */
+          showSkills?: boolean | null;
+        };
+        /**
+         * Select education items to display in this section
+         */
+        educationItems?: (number | Education)[] | null;
+        filterOptions?: {
+          /**
+           * Select which education types to display
+           */
+          educationTypes?:
+            | (
+                | 'associate'
+                | 'bachelor'
+                | 'bootcamp'
+                | 'certificate'
+                | 'diploma'
+                | 'master'
+                | 'online-course'
+                | 'other'
+                | 'phd'
+                | 'workshop'
+              )[]
+            | null;
+          /**
+           * Allow filtering by education type
+           */
+          filterByType?: boolean | null;
+        };
+        /**
+         * Main title of the education section
+         */
+        heading: string;
+        timelineOptions?: {
+          /**
+           * Color of the timeline line (hex code)
+           */
+          lineColor?: string | null;
+          /**
+           * Show connecting line in timeline
+           */
+          showLine?: boolean | null;
+          /**
+           * Timeline display style
+           */
+          style?: ('alternating' | 'horizontal' | 'vertical') | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'education';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Description of the experience section
+         */
+        description?: string | null;
+        displayOptions?: {
+          /**
+           * Show only featured experience items
+           */
+          featuredOnly?: boolean | null;
+          /**
+           * Show only current positions
+           */
+          currentOnly?: boolean | null;
+          /**
+           * Number of items per row (for grid/cards layout)
+           */
+          itemsPerRow?: ('1' | '2' | '3') | null;
+          /**
+           * How to display the experience items
+           */
+          layout?: ('cards' | 'grid' | 'list' | 'timeline') | null;
+          /**
+           * Maximum number of experience items to display (leave empty for all)
+           */
+          limit?: number | null;
+          /**
+           * Display key achievements
+           */
+          showAchievements?: boolean | null;
+          /**
+           * Display company logos
+           */
+          showCompanyLogos?: boolean | null;
+          /**
+           * Display employment duration
+           */
+          showDuration?: boolean | null;
+          /**
+           * Display employment type (Full-time, Contract, etc.)
+           */
+          showEmploymentType?: boolean | null;
+          /**
+           * Display work location
+           */
+          showLocation?: boolean | null;
+          /**
+           * Display technologies used
+           */
+          showTechnologies?: boolean | null;
+        };
+        /**
+         * Select experience items to display in this section
+         */
+        experienceItems?: (number | Experience)[] | null;
+        /**
+         * Main title of the experience section
+         */
+        heading: string;
+        timelineOptions?: {
+          /**
+           * Color of the timeline line (hex code)
+           */
+          lineColor?: string | null;
+          /**
+           * Show connecting line in timeline
+           */
+          showLine?: boolean | null;
+          /**
+           * Timeline display style
+           */
+          style?: ('alternating' | 'horizontal' | 'vertical') | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'experience';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        animation?: {
+          /**
+           * Delay before animation starts in milliseconds
+           */
+          delay?: number | null;
+          type?: ('none' | 'fadeIn' | 'slideDown' | 'slideUp' | 'zoomIn') | null;
+        };
+        /**
+         * Hexadecimal background color
+         */
+        backgroundColor?: string | null;
+        /**
+         * Background image for hero section (optional)
+         */
+        backgroundImage?: (number | null) | Media;
+        /**
+         * Background video (optional, replaces image)
+         */
+        backgroundVideo?: (number | null) | Media;
+        /**
+         * Main action button (optional)
+         */
+        cta: {
+          href: string;
+          openInNewTab?: boolean | null;
+          style?: ('outlined' | 'primary' | 'secondary') | null;
+          label: string;
+        };
+        /**
+         * Custom hexadecimal color
+         */
+        customTextColor?: string | null;
+        /**
+         * Additional buttons (optional)
+         */
+        secondaryButtons?:
+          | {
+              href: string;
+              label: string;
+              openInNewTab?: boolean | null;
+              style?: ('outlined' | 'primary' | 'secondary') | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Subtitle or short description
+         */
+        subtitle?: string | null;
+        /**
+         * Text content alignment
+         */
+        textAlign?: ('center' | 'left' | 'right') | null;
+        /**
+         * Main text color
+         */
+        textColor?: ('black' | 'custom' | 'white') | null;
+        /**
+         * Main title of the hero section
+         */
+        title: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Description of the projects section
+         */
+        description?: string | null;
+        displayOptions?: {
+          /**
+           * Show only featured projects
+           */
+          featuredOnly?: boolean | null;
+          /**
+           * Number of projects per row (for grid layout)
+           */
+          itemsPerRow?: ('1' | '2' | '3' | '4') | null;
+          /**
+           * How to display the projects
+           */
+          layout?: ('carousel' | 'grid' | 'list') | null;
+          /**
+           * Maximum number of projects to display (leave empty for all)
+           */
+          limit?: number | null;
+        };
+        /**
+         * Main title of the projects section
+         */
+        heading: string;
+        /**
+         * Select projects to showcase in this section
+         */
+        projects?: (number | Project)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'projects';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        cta?: {
+          /**
+           * Call to action button link
+           */
+          link?: string | null;
+          /**
+           * Show call to action button
+           */
+          showCta?: boolean | null;
+          /**
+           * Call to action button style
+           */
+          style?: ('outlined' | 'primary' | 'secondary') | null;
+          /**
+           * Call to action button text
+           */
+          text?: string | null;
+        };
+        /**
+         * Description of the services section
+         */
+        description?: string | null;
+        displayOptions?: {
+          /**
+           * Show only available services
+           */
+          availableOnly?: boolean | null;
+          /**
+           * Show only featured services
+           */
+          featuredOnly?: boolean | null;
+          /**
+           * Number of services per row (for grid/cards layout)
+           */
+          itemsPerRow?: ('1' | '2' | '3' | '4') | null;
+          /**
+           * How to display the services
+           */
+          layout?: ('grid' | 'list' | 'cards' | 'tabs' | 'accordion') | null;
+          /**
+           * Maximum number of services to display (leave empty for all)
+           */
+          limit?: number | null;
+          /**
+           * Display service features
+           */
+          showFeatures?: boolean | null;
+          /**
+           * Display service icons
+           */
+          showIcons?: boolean | null;
+          /**
+           * Display service images
+           */
+          showImages?: boolean | null;
+          /**
+           * Display pricing information
+           */
+          showPricing?: boolean | null;
+          /**
+           * Display service delivery process
+           */
+          showProcess?: boolean | null;
+          /**
+           * Display related projects
+           */
+          showRelatedProjects?: boolean | null;
+          /**
+           * Display technologies used
+           */
+          showTechnologies?: boolean | null;
+          /**
+           * Display related testimonials
+           */
+          showTestimonials?: boolean | null;
+        };
+        filterOptions?: {
+          /**
+           * Allow users to filter services
+           */
+          enableFiltering?: boolean | null;
+          /**
+           * Allow filtering by availability
+           */
+          filterByAvailability?: boolean | null;
+          /**
+           * Allow filtering by price range
+           */
+          filterByPrice?: boolean | null;
+          /**
+           * Allow filtering by service type
+           */
+          filterByType?: boolean | null;
+        };
+        /**
+         * Main title of the services section
+         */
+        heading: string;
+        /**
+         * Select services to display in this section
+         */
+        services?: (number | Service)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'services';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Description of the skills section
+         */
+        description?: string | null;
+        displayOptions?: {
+          /**
+           * Show only featured skills
+           */
+          featuredOnly?: boolean | null;
+          /**
+           * Group skills by their categories
+           */
+          groupByCategory?: boolean | null;
+          /**
+           * Number of skills per row (for grid layout)
+           */
+          itemsPerRow?: ('2' | '3' | '4' | '5' | '6') | null;
+          /**
+           * How to display the skills
+           */
+          layout?: ('grid' | 'list' | 'progress' | 'tags') | null;
+          /**
+           * Display skill icons
+           */
+          showIcons?: boolean | null;
+          /**
+           * Display skill level percentages
+           */
+          showPercentage?: boolean | null;
+        };
+        /**
+         * Main title of the skills section
+         */
+        heading: string;
+        /**
+         * Select skills to display in this section
+         */
+        skills?: (number | Skill)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'skills';
+      }
+    | {
+        /**
+         * ID for navigation
+         */
+        anchorId?: string | null;
+        /**
+         * Description of the testimonials section
+         */
+        description?: string | null;
+        displayOptions?: {
+          /**
+           * Automatically rotate testimonials (for carousel)
+           */
+          autoRotate?: boolean | null;
+          /**
+           * Show only featured testimonials
+           */
+          featuredOnly?: boolean | null;
+          /**
+           * Number of testimonials per row (for grid layout)
+           */
+          itemsPerRow?: ('1' | '2' | '3') | null;
+          /**
+           * How to display the testimonials
+           */
+          layout?: ('carousel' | 'grid' | 'list' | 'single') | null;
+          /**
+           * Time between rotations in seconds
+           */
+          rotationSpeed?: number | null;
+          /**
+           * Display company and position information
+           */
+          showCompany?: boolean | null;
+          /**
+           * Display client profile photos
+           */
+          showPhotos?: boolean | null;
+          /**
+           * Display star ratings
+           */
+          showRatings?: boolean | null;
+        };
+        /**
+         * Main title of the testimonials section
+         */
+        heading: string;
+        /**
+         * Select testimonials to display in this section
+         */
+        testimonials?: (number | Testimonial)[] | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'testimonials';
+      }
+  )[];
+  /**
+   * SEO and social media settings
+   */
+  seo?: {
+    /**
+     * Description for search engines (optional)
+     */
+    description?: string | null;
+    /**
+     * Allow search engines to follow links
+     */
+    followLinks?: boolean | null;
+    /**
+     * Allow indexing by Google, etc.
+     */
+    indexable?: boolean | null;
+    /**
+     * Keywords separated by commas
+     */
+    keywords?: string | null;
+    /**
+     * Image for social networks
+     */
+    ogImage?: (number | null) | Media;
+    /**
+     * Title for search engines (optional)
+     */
+    title?: string | null;
+  };
+  /**
+   * Leave blank to auto-generate from title
+   */
+  slug?: string | null;
+  /**
+   * Page status
+   */
+  status?: ('archived' | 'draft' | 'published') | null;
+  /**
+   * Tags to organize pages
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Main title of the page
+   */
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage services offered
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  /**
+   * Name of the service
+   */
+  name: string;
+  /**
+   * URL-friendly version of the service name
+   */
+  slug?: string | null;
+  /**
+   * Brief description of the service
+   */
+  description?: string | null;
+  /**
+   * Detailed service information
+   */
+  detailedDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Icon class or emoji for the service
+   */
+  icon?: string | null;
+  /**
+   * Service image or illustration
+   */
+  image?: (number | null) | Media;
+  /**
+   * Type of service
+   */
+  serviceType?:
+    | ('consulting' | 'maintenance' | 'mobile-development' | 'other' | 'training' | 'ui-ux-design' | 'web-development')
+    | null;
+  pricing?: {
+    type?: ('custom' | 'fixed' | 'hourly' | 'monthly' | 'project') | null;
+    /**
+     * Price amount (leave empty for custom quotes)
+     */
+    price?: number | null;
+    currency?: ('CAD' | 'EUR' | 'GBP' | 'USD') | null;
+    /**
+     * Additional pricing information
+     */
+    note?: string | null;
+  };
+  /**
+   * Key features of this service
+   */
+  features?:
+    | {
+        feature: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Service delivery process steps
+   */
+  process?:
+    | {
+        stepNumber: number;
+        title: string;
+        description: string;
+        /**
+         * Estimated duration
+         */
+        duration?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Technologies used in this service
+   */
+  technologies?: (number | Skill)[] | null;
+  /**
+   * Example projects for this service
+   */
+  relatedProjects?: (number | Project)[] | null;
+  /**
+   * Testimonials related to this service
+   */
+  testimonials?: (number | Testimonial)[] | null;
+  /**
+   * Typical delivery time
+   */
+  deliveryTime?: string | null;
+  /**
+   * Current availability of this service
+   */
+  availability?: ('available' | 'coming-soon' | 'limited' | 'not-available') | null;
+  /**
+   * Mark as featured service
+   */
+  featured?: boolean | null;
+  /**
+   * Show this service on the website
+   */
+  active?: boolean | null;
+  /**
+   * Order for displaying services (smaller = higher)
+   */
+  displayOrder?: number | null;
+  /**
+   * Tags to categorize services
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Manage social media links and profiles
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-networks".
+ */
+export interface SocialNetwork {
+  id: number;
+  /**
+   * Show this social network in navigation
+   */
+  active?: boolean | null;
+  /**
+   * Hexadecimal color of the icon
+   */
+  color?: string | null;
+  /**
+   * Brief description of your presence on this platform
+   */
+  description?: string | null;
+  /**
+   * Number of followers (optional, for display)
+   */
+  followCount?: number | null;
+  /**
+   * Color when hovering over the icon (optional)
+   */
+  hoverColor?: string | null;
+  /**
+   * SVG icon code (without <svg> tags)
+   */
+  icon: string;
+  /**
+   * Name of the social media platform
+   */
+  name: string;
+  /**
+   * Open link in a new tab
+   */
+  openInNewTab?: boolean | null;
+  /**
+   * Type of platform for categorization
+   */
+  platformType?: ('creative' | 'professional' | 'other' | 'social' | 'technical') | null;
+  /**
+   * Order of display (smaller = higher)
+   */
+  position: number;
+  /**
+   * Link to your profile on this platform
+   */
+  url: string;
+  /**
+   * Your username or handle on this platform
+   */
+  username?: string | null;
+  /**
+   * SVG icon viewBox
+   */
+  viewBox: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -200,12 +2592,56 @@ export interface PayloadLockedDocument {
         value: number | App;
       } | null)
     | ({
+        relationTo: 'blog-posts';
+        value: number | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'companies';
+        value: number | Company;
+      } | null)
+    | ({
+        relationTo: 'education';
+        value: number | Education;
+      } | null)
+    | ({
+        relationTo: 'experience';
+        value: number | Experience;
+      } | null)
+    | ({
+        relationTo: 'institutions';
+        value: number | Institution;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'skills';
+        value: number | Skill;
+      } | null)
+    | ({
         relationTo: 'social-networks';
         value: number | SocialNetwork;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
       } | null)
     | ({
         relationTo: 'users';
@@ -258,13 +2694,288 @@ export interface PayloadMigration {
  * via the `definition` "apps_select".
  */
 export interface AppsSelect<T extends boolean = true> {
+  active?: T;
+  color?: T;
+  description?: T;
   icon?: T;
   name?: T;
+  openInNewTab?: T;
   position?: T;
   url?: T;
   viewBox?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  allowComments?: T;
+  author?: T;
+  categories?: T;
+  content?: T;
+  excerpt?: T;
+  featured?: T;
+  featuredImage?: T;
+  publishedDate?: T;
+  readingTime?: T;
+  relatedProjects?: T;
+  seo?:
+    | T
+    | {
+        description?: T;
+        keywords?: T;
+        ogImage?: T;
+        title?: T;
+      };
+  slug?: T;
+  status?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  color?: T;
+  icon?: T;
+  image?: T;
+  categoryType?: T;
+  parent?: T;
+  featured?: T;
+  active?: T;
+  displayOrder?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        keywords?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "companies_select".
+ */
+export interface CompaniesSelect<T extends boolean = true> {
+  active?: T;
+  companySize?: T;
+  contactInfo?:
+    | T
+    | {
+        address?: T;
+        email?: T;
+        phone?: T;
+      };
+  description?: T;
+  detailedDescription?: T;
+  featured?: T;
+  foundedYear?: T;
+  headquarters?: T;
+  industry?: T;
+  logo?: T;
+  name?: T;
+  projects?: T;
+  slug?: T;
+  socialMedia?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+        linkedin?: T;
+        twitter?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  testimonials?: T;
+  website?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education_select".
+ */
+export interface EducationSelect<T extends boolean = true> {
+  achievements?:
+    | T
+    | {
+        achievement?: T;
+        date?: T;
+        description?: T;
+        id?: T;
+      };
+  active?: T;
+  certificateImage?: T;
+  coursework?:
+    | T
+    | {
+        courseName?: T;
+        description?: T;
+        grade?: T;
+        id?: T;
+      };
+  current?: T;
+  degree?: T;
+  description?: T;
+  displayOrder?: T;
+  educationType?: T;
+  endDate?: T;
+  featured?: T;
+  fieldOfStudy?: T;
+  grade?: T;
+  institution?: T;
+  location?: T;
+  startDate?: T;
+  projects?: T;
+  skillsLearned?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience_select".
+ */
+export interface ExperienceSelect<T extends boolean = true> {
+  achievements?:
+    | T
+    | {
+        achievement?: T;
+        description?: T;
+        impact?: T;
+        id?: T;
+      };
+  active?: T;
+  company?: T;
+  current?: T;
+  description?: T;
+  detailedDescription?: T;
+  displayOrder?: T;
+  endDate?: T;
+  employmentType?: T;
+  featured?: T;
+  jobTitle?: T;
+  location?: T;
+  projects?: T;
+  reasonForLeaving?: T;
+  references?:
+    | T
+    | {
+        email?: T;
+        name?: T;
+        phone?: T;
+        position?: T;
+        id?: T;
+      };
+  remoteWork?: T;
+  reportingTo?: T;
+  responsibilities?:
+    | T
+    | {
+        description?: T;
+        responsibility?: T;
+        id?: T;
+      };
+  salaryRange?: T;
+  skillsDeveloped?: T;
+  startDate?: T;
+  teamSize?: T;
+  technologiesUsed?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "institutions_select".
+ */
+export interface InstitutionsSelect<T extends boolean = true> {
+  active?: T;
+  contactInfo?:
+    | T
+    | {
+        address?: T;
+        email?: T;
+        phone?: T;
+      };
+  country?: T;
+  description?: T;
+  detailedDescription?: T;
+  featured?: T;
+  foundedYear?: T;
+  gallery?:
+    | T
+    | {
+        caption?: T;
+        image?: T;
+        id?: T;
+      };
+  industry?: T;
+  institutionSize?: T;
+  institutionType?: T;
+  location?: T;
+  logo?: T;
+  name?: T;
+  seo?:
+    | T
+    | {
+        description?: T;
+        keywords?: T;
+        title?: T;
+      };
+  slug?: T;
+  socialMedia?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  website?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -272,8 +2983,23 @@ export interface AppsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  caption?: T;
+  category?: T;
+  copyright?: T;
+  creator?: T;
+  description?: T;
+  featured?: T;
+  published?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  usageRights?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -283,27 +3009,666 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        tablet?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  author?: T;
+  excerpt?: T;
+  featuredImage?: T;
+  publishedDate?: T;
+  sections?:
+    | T
+    | {
+        about?:
+          | T
+          | {
+              additionalImages?:
+                | T
+                | {
+                    caption?: T;
+                    image?: T;
+                    id?: T;
+                  };
+              anchorId?: T;
+              body?: T;
+              cta?:
+                | T
+                | {
+                    href?: T;
+                    label?: T;
+                    openInNewTab?: T;
+                    style?: T;
+                  };
+              heading?: T;
+              keySkills?:
+                | T
+                | {
+                    level?: T;
+                    skill?: T;
+                    id?: T;
+                  };
+              layout?:
+                | T
+                | {
+                    backgroundColor?: T;
+                    contentAlign?: T;
+                    imagePosition?: T;
+                  };
+              profileImage?: T;
+              stats?:
+                | T
+                | {
+                    icon?: T;
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              subtitle?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'blog-posts'?:
+          | T
+          | {
+              anchorId?: T;
+              blogPosts?: T;
+              description?: T;
+              displayOptions?:
+                | T
+                | {
+                    featuredOnly?: T;
+                    itemsPerRow?: T;
+                    layout?: T;
+                    limit?: T;
+                    publishedOnly?: T;
+                    showAuthors?: T;
+                    showCategories?: T;
+                    showDates?: T;
+                    showExcerpts?: T;
+                    showFeaturedImages?: T;
+                    showReadingTime?: T;
+                    showTags?: T;
+                  };
+              filterOptions?:
+                | T
+                | {
+                    enableFiltering?: T;
+                    filterByAuthor?: T;
+                    filterByCategory?: T;
+                    filterByDate?: T;
+                    filterByTags?: T;
+                  };
+              heading?: T;
+              pagination?:
+                | T
+                | {
+                    enabled?: T;
+                    postsPerPage?: T;
+                    showLoadMore?: T;
+                  };
+              cta?:
+                | T
+                | {
+                    link?: T;
+                    showCta?: T;
+                    style?: T;
+                    text?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        contact?:
+          | T
+          | {
+              address?: T;
+              anchorId?: T;
+              contactForm?:
+                | T
+                | {
+                    description?: T;
+                    enabled?: T;
+                    title?: T;
+                  };
+              description?: T;
+              email?: T;
+              heading?: T;
+              links?:
+                | T
+                | {
+                    href?: T;
+                    icon?: T;
+                    label?: T;
+                    openInNewTab?: T;
+                    id?: T;
+                  };
+              phone?: T;
+              id?: T;
+              blockName?: T;
+            };
+        education?:
+          | T
+          | {
+              anchorId?: T;
+              description?: T;
+              displayOptions?:
+                | T
+                | {
+                    currentOnly?: T;
+                    featuredOnly?: T;
+                    itemsPerRow?: T;
+                    layout?: T;
+                    limit?: T;
+                    showAchievements?: T;
+                    showCoursework?: T;
+                    showDuration?: T;
+                    showEducationType?: T;
+                    showGrade?: T;
+                    showInstitutionLogos?: T;
+                    showLocation?: T;
+                    showSkills?: T;
+                  };
+              educationItems?: T;
+              filterOptions?:
+                | T
+                | {
+                    educationTypes?: T;
+                    filterByType?: T;
+                  };
+              heading?: T;
+              timelineOptions?:
+                | T
+                | {
+                    lineColor?: T;
+                    showLine?: T;
+                    style?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        experience?:
+          | T
+          | {
+              anchorId?: T;
+              description?: T;
+              displayOptions?:
+                | T
+                | {
+                    featuredOnly?: T;
+                    currentOnly?: T;
+                    itemsPerRow?: T;
+                    layout?: T;
+                    limit?: T;
+                    showAchievements?: T;
+                    showCompanyLogos?: T;
+                    showDuration?: T;
+                    showEmploymentType?: T;
+                    showLocation?: T;
+                    showTechnologies?: T;
+                  };
+              experienceItems?: T;
+              heading?: T;
+              timelineOptions?:
+                | T
+                | {
+                    lineColor?: T;
+                    showLine?: T;
+                    style?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        hero?:
+          | T
+          | {
+              anchorId?: T;
+              animation?:
+                | T
+                | {
+                    delay?: T;
+                    type?: T;
+                  };
+              backgroundColor?: T;
+              backgroundImage?: T;
+              backgroundVideo?: T;
+              cta?:
+                | T
+                | {
+                    href?: T;
+                    openInNewTab?: T;
+                    style?: T;
+                    label?: T;
+                  };
+              customTextColor?: T;
+              secondaryButtons?:
+                | T
+                | {
+                    href?: T;
+                    label?: T;
+                    openInNewTab?: T;
+                    style?: T;
+                    id?: T;
+                  };
+              subtitle?: T;
+              textAlign?: T;
+              textColor?: T;
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
+        projects?:
+          | T
+          | {
+              anchorId?: T;
+              description?: T;
+              displayOptions?:
+                | T
+                | {
+                    featuredOnly?: T;
+                    itemsPerRow?: T;
+                    layout?: T;
+                    limit?: T;
+                  };
+              heading?: T;
+              projects?: T;
+              id?: T;
+              blockName?: T;
+            };
+        services?:
+          | T
+          | {
+              anchorId?: T;
+              cta?:
+                | T
+                | {
+                    link?: T;
+                    showCta?: T;
+                    style?: T;
+                    text?: T;
+                  };
+              description?: T;
+              displayOptions?:
+                | T
+                | {
+                    availableOnly?: T;
+                    featuredOnly?: T;
+                    itemsPerRow?: T;
+                    layout?: T;
+                    limit?: T;
+                    showFeatures?: T;
+                    showIcons?: T;
+                    showImages?: T;
+                    showPricing?: T;
+                    showProcess?: T;
+                    showRelatedProjects?: T;
+                    showTechnologies?: T;
+                    showTestimonials?: T;
+                  };
+              filterOptions?:
+                | T
+                | {
+                    enableFiltering?: T;
+                    filterByAvailability?: T;
+                    filterByPrice?: T;
+                    filterByType?: T;
+                  };
+              heading?: T;
+              services?: T;
+              id?: T;
+              blockName?: T;
+            };
+        skills?:
+          | T
+          | {
+              anchorId?: T;
+              description?: T;
+              displayOptions?:
+                | T
+                | {
+                    featuredOnly?: T;
+                    groupByCategory?: T;
+                    itemsPerRow?: T;
+                    layout?: T;
+                    showIcons?: T;
+                    showPercentage?: T;
+                  };
+              heading?: T;
+              skills?: T;
+              id?: T;
+              blockName?: T;
+            };
+        testimonials?:
+          | T
+          | {
+              anchorId?: T;
+              description?: T;
+              displayOptions?:
+                | T
+                | {
+                    autoRotate?: T;
+                    featuredOnly?: T;
+                    itemsPerRow?: T;
+                    layout?: T;
+                    rotationSpeed?: T;
+                    showCompany?: T;
+                    showPhotos?: T;
+                    showRatings?: T;
+                  };
+              heading?: T;
+              testimonials?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seo?:
+    | T
+    | {
+        description?: T;
+        followLinks?: T;
+        indexable?: T;
+        keywords?: T;
+        ogImage?: T;
+        title?: T;
+      };
+  slug?: T;
+  status?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  challenges?: T;
+  client?: T;
+  description?: T;
+  detailedDescription?: T;
+  endDate?: T;
+  featured?: T;
+  gallery?:
+    | T
+    | {
+        caption?: T;
+        image?: T;
+        id?: T;
+      };
+  githubUrl?: T;
+  image?: T;
+  name?: T;
+  projectType?: T;
+  projectUrl?: T;
+  published?: T;
+  role?: T;
+  results?: T;
+  seo?:
+    | T
+    | {
+        description?: T;
+        keywords?: T;
+        title?: T;
+      };
+  slug?: T;
+  startDate?: T;
+  projectStatus?: T;
+  teamSize?: T;
+  technologies?:
+    | T
+    | {
+        color?: T;
+        name?: T;
+        id?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  detailedDescription?: T;
+  icon?: T;
+  image?: T;
+  serviceType?: T;
+  pricing?:
+    | T
+    | {
+        type?: T;
+        price?: T;
+        currency?: T;
+        note?: T;
+      };
+  features?:
+    | T
+    | {
+        feature?: T;
+        description?: T;
+        id?: T;
+      };
+  process?:
+    | T
+    | {
+        stepNumber?: T;
+        title?: T;
+        description?: T;
+        duration?: T;
+        id?: T;
+      };
+  technologies?: T;
+  relatedProjects?: T;
+  testimonials?: T;
+  deliveryTime?: T;
+  availability?: T;
+  featured?: T;
+  active?: T;
+  displayOrder?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skills_select".
+ */
+export interface SkillsSelect<T extends boolean = true> {
+  active?: T;
+  category?: T;
+  certifications?:
+    | T
+    | {
+        certificateUrl?: T;
+        date?: T;
+        expiryDate?: T;
+        name?: T;
+        organization?: T;
+        id?: T;
+      };
+  color?: T;
+  description?: T;
+  displayOrder?: T;
+  featured?: T;
+  icon?: T;
+  learningResources?:
+    | T
+    | {
+        type?: T;
+        title?: T;
+        url?: T;
+        provider?: T;
+        id?: T;
+      };
+  level?: T;
+  name?: T;
+  percentage?: T;
+  projectsUsedIn?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  yearsExperience?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "social-networks_select".
  */
 export interface SocialNetworksSelect<T extends boolean = true> {
+  active?: T;
+  color?: T;
+  description?: T;
+  followCount?: T;
+  hoverColor?: T;
   icon?: T;
   name?: T;
+  openInNewTab?: T;
+  platformType?: T;
   position?: T;
   url?: T;
+  username?: T;
   viewBox?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  clientName?: T;
+  clientPhoto?: T;
+  clientPosition?: T;
+  company?: T;
+  companyLogo?: T;
+  companyWebsite?: T;
+  testimonial?: T;
+  rating?: T;
+  project?: T;
+  projectLink?: T;
+  date?: T;
+  serviceType?: T;
+  projectDuration?: T;
+  projectBudget?: T;
+  featured?: T;
+  published?: T;
+  displayOrder?: T;
+  socialProof?:
+    | T
+    | {
+        linkedinProfile?: T;
+        twitterHandle?: T;
+        verified?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  avatar?: T;
+  bio?: T;
+  displayName?: T;
+  firstName?: T;
+  lastLogin?: T;
+  lastName?: T;
+  location?: T;
+  loginCount?: T;
+  notes?: T;
+  phone?: T;
+  preferences?:
+    | T
+    | {
+        emailNotifications?: T;
+        language?: T;
+        timezone?: T;
+      };
+  role?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  userStatus?: T;
+  website?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -350,6 +3715,197 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  siteInfo: {
+    /**
+     * Name of your website
+     */
+    siteName: string;
+    /**
+     * Short name for PWA manifest (max 12 characters)
+     */
+    shortName?: string | null;
+    /**
+     * Brief description of your website
+     */
+    siteDescription?: string | null;
+    /**
+     * Main logo for your website
+     */
+    siteLogo?: (number | null) | Media;
+    /**
+     * Favicon for your website
+     */
+    favicon?: (number | null) | Media;
+    /**
+     * Theme color for browser UI (hex code)
+     */
+    themeColor?: string | null;
+    /**
+     * Background color for splash screen (hex code)
+     */
+    backgroundColor?: string | null;
+    /**
+     * How the app should be displayed
+     */
+    displayMode?: ('browser' | 'fullscreen' | 'minimal-ui' | 'standalone') | null;
+    /**
+     * URL to load when app is launched
+     */
+    startUrl?: string | null;
+    /**
+     * Navigation scope of the app
+     */
+    scope?: string | null;
+    /**
+     * Preferred orientation for the app
+     */
+    orientation?: ('any' | 'landscape' | 'portrait') | null;
+  };
+  contactInfo?: {
+    /**
+     * Main contact email
+     */
+    email?: string | null;
+    /**
+     * Contact phone number
+     */
+    phone?: string | null;
+    /**
+     * Physical address
+     */
+    address?: string | null;
+    /**
+     * City, Country
+     */
+    location?: string | null;
+  };
+  socialMedia?: {
+    /**
+     * Default social networks to show in footer/header
+     */
+    defaultSocialNetworks?: (number | SocialNetwork)[] | null;
+  };
+  seoSettings?: {
+    /**
+     * Default title for pages without specific SEO title
+     */
+    defaultMetaTitle?: string | null;
+    /**
+     * Default description for pages without specific SEO description
+     */
+    defaultMetaDescription?: string | null;
+    /**
+     * Default keywords for SEO
+     */
+    defaultKeywords?: string | null;
+    /**
+     * Google Analytics tracking ID
+     */
+    googleAnalyticsId?: string | null;
+    /**
+     * Google Tag Manager ID
+     */
+    googleTagManagerId?: string | null;
+  };
+  appearance?: {
+    /**
+     * Primary brand color (hex code)
+     */
+    primaryColor?: string | null;
+    /**
+     * Secondary brand color (hex code)
+     */
+    secondaryColor?: string | null;
+    /**
+     * Accent color (hex code)
+     */
+    accentColor?: string | null;
+    /**
+     * Main font family for the website
+     */
+    fontFamily?: ('inter' | 'lato' | 'montserrat' | 'open-sans' | 'poppins' | 'roboto') | null;
+  };
+  navigation?: {
+    /**
+     * Pages to show in main navigation
+     */
+    mainNavigation?: (number | Page)[] | null;
+    /**
+     * Pages to show in footer navigation
+     */
+    footerNavigation?: (number | Page)[] | null;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteInfo?:
+    | T
+    | {
+        siteName?: T;
+        shortName?: T;
+        siteDescription?: T;
+        siteLogo?: T;
+        favicon?: T;
+        themeColor?: T;
+        backgroundColor?: T;
+        displayMode?: T;
+        startUrl?: T;
+        scope?: T;
+        orientation?: T;
+      };
+  contactInfo?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        address?: T;
+        location?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        defaultSocialNetworks?: T;
+      };
+  seoSettings?:
+    | T
+    | {
+        defaultMetaTitle?: T;
+        defaultMetaDescription?: T;
+        defaultKeywords?: T;
+        googleAnalyticsId?: T;
+        googleTagManagerId?: T;
+      };
+  appearance?:
+    | T
+    | {
+        primaryColor?: T;
+        secondaryColor?: T;
+        accentColor?: T;
+        fontFamily?: T;
+      };
+  navigation?:
+    | T
+    | {
+        mainNavigation?: T;
+        footerNavigation?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
