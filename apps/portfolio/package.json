@@ -16,6 +16,8 @@
     "@mui/material": "7.3.2",
     "@mui/material-nextjs": "7.3.2",
     "@payloadcms/db-postgres": "3.54.0",
+    "@payloadcms/email-nodemailer": "3.55.1",
+    "@payloadcms/email-resend": "3.55.1",
     "@payloadcms/next": "3.54.0",
     "@payloadcms/payload-cloud": "3.54.0",
     "@payloadcms/richtext-lexical": "3.54.0",
