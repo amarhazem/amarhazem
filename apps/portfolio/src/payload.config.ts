@@ -1,5 +1,6 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { resendAdapter } from "@payloadcms/email-resend";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -57,6 +58,11 @@ export default buildConfig({
     },
   }),
   editor: lexicalEditor(),
+  email: resendAdapter({
+    defaultFromAddress: "contact@amarhazem.com",
+    defaultFromName: "Amar Hazem",
+    apiKey: env.RESEND_API_KEY,
+  }),
   globals: [SiteSettings],
   plugins: [
     payloadCloudPlugin(),
