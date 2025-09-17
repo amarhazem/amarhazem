@@ -6,6 +6,7 @@
     "devsafe",
     "dpage",
     "ecommerce",
+    "esbuild",
     "hazem",
     "healthcheck",
     "importmap",
@@ -16,7 +17,8 @@
     "pgadmin",
     "traefik",
     "turborepo",
-    "unrs"
+    "unrs",
+    "vercel"
   ],
   "diffEditor.codeLens": true,
   "editor.codeActionsOnSave": {
