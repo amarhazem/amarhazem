@@ -6,7 +6,7 @@ import { unstable_cache } from "next/cache";
 import type { PaginatedDocs } from "payload";
 import { cache } from "react";
 
-const getSocialNetworksCached = cache(
+export const getSocialNetworksCached = cache(
   async (): Promise<PaginatedDocs<SocialNetwork>> => {
     const socialNetworks: PaginatedDocs<SocialNetwork> = await payload.find({
       collection: "social-networks",

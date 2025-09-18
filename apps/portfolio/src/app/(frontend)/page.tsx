@@ -1,16 +1,14 @@
-import Typography from "@mui/material/Typography";
+import PageRenderer from "@/components/page-renderer";
+import { getPageBySlug } from "@/data/pages";
+import { notFound } from "next/navigation";
 import { type ReactNode } from "react";
 
-export default async function LandingPage(): Promise<ReactNode> {
-  return (
-    <Typography
-      sx={{
-        alignSelf: "center",
-        textAlign: "center",
-      }}
-      variant="h2"
-    >
-      Amar Hazem | Full Stack Developer
-    </Typography>
-  );
+export default async function Page(): Promise<ReactNode> {
+  const pageData = await getPageBySlug("home");
+
+  if (!pageData) {
+    notFound();
+  }
+
+  return <PageRenderer pageData={pageData} />;
 }

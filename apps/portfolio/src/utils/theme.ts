@@ -9,8 +9,25 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
+// Palette commune
+const commonPalette = {
+  primary: {
+    main: "#D21DF7",
+  },
+  secondary: {
+    main: "#1F6CF7",
+  },
+};
+
 export const theme: Theme = createTheme({
-  colorSchemes: { dark: true, light: true },
+  colorSchemes: {
+    light: {
+      palette: commonPalette,
+    },
+    dark: {
+      palette: commonPalette,
+    },
+  },
   components: {
     MuiAppBar: {
       styleOverrides: {
@@ -44,14 +61,6 @@ export const theme: Theme = createTheme({
   },
   cssVariables: {
     colorSchemeSelector: "class",
-  },
-  palette: {
-    primary: {
-      main: "#D21DF7",
-    },
-    secondary: {
-      main: "#1F6CF7",
-    },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
