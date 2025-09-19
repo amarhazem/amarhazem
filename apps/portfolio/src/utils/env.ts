@@ -6,6 +6,7 @@ const envSchema = z.object({
   BLOB_READ_WRITE_TOKEN: z.string(),
   CMS_URL: z.url(),
   DATABASE_URL: z.string(),
+  NODE_ENV: z.string(),
   PAYLOAD_SECRET: z.string(),
   RESEND_API_KEY: z.string(),
 });
