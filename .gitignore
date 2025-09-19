@@ -1,5 +1,6 @@
 .next
 .turbo
+.vercel
 node_modules
 playwright-report
 test-results
