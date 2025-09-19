@@ -9,7 +9,6 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-// Palette commune
 const commonPalette = {
   primary: {
     main: "#D21DF7",

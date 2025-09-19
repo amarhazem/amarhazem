@@ -4,6 +4,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   BLOB_READ_WRITE_TOKEN: z.string(),
+  CMS_URL: z.url(),
   DATABASE_URL: z.string(),
   PAYLOAD_SECRET: z.string(),
   RESEND_API_KEY: z.string(),

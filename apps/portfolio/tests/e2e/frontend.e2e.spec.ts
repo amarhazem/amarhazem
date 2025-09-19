@@ -11,10 +11,10 @@ test.describe("LandingPage", () => {
   test("can go on landing page", async ({ page }) => {
     await page.goto("http://localhost:3000");
 
-    await expect(page).toHaveTitle(/Amar Hazem | Full Stack Developer/);
+    await expect(page).toHaveTitle(/Amar Hazem | Full Stack Engineer/);
 
     const heading = page.locator("h1").first();
 
-    await expect(heading).toHaveText("Amar Hazem | Full Stack Developer");
+    await expect(heading).toHaveText("Amar Hazem | Full Stack Engineer");
   });
 });
