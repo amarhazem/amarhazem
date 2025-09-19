@@ -38,6 +38,9 @@ importers:
       '@mui/material-nextjs':
         specifier: 7.3.2
         version: 7.3.2(@emotion/cache@11.14.0)(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(next@15.5.3(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.55.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.77.4))(react@19.1.1)
+      '@payloadcms/admin-bar':
+        specifier: 3.56.0
+        version: 3.56.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@payloadcms/db-postgres':
         specifier: 3.55.1
         version: 3.55.1(@opentelemetry/api@1.9.0)(payload@3.55.1(graphql@16.11.0)(typescript@5.9.2))
@@ -1705,6 +1708,12 @@ packages:
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
+
+  '@payloadcms/admin-bar@3.56.0':
+    resolution: {integrity: sha512-M0opBdPDsvEBGr4TR0QbllHpXfKTjDtPSEgx/AbrQMDw9nWgXmrRkjCn9j4/LUV4CatJRizNn8/iZBNciP1wcQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   '@payloadcms/db-postgres@3.55.1':
     resolution: {integrity: sha512-nk/1IpeBABSj+Jjqf+USOHr/6A4uEv/TxsqxMvcpqsj363cioJdLrcnJug3cf+UbWs7Ou7sdeGBZhYpCghdG+g==}
@@ -7385,6 +7394,11 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.1.0(@opentelemetry/api@1.9.0)
+
+  '@payloadcms/admin-bar@3.56.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
 
   '@payloadcms/db-postgres@3.55.1(@opentelemetry/api@1.9.0)(payload@3.55.1(graphql@16.11.0)(typescript@5.9.2))':
     dependencies:

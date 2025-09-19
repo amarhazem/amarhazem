@@ -17,8 +17,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  description: "Amar Hazem | Full Stack Developer",
-  title: "Amar Hazem | Full Stack Developer",
+  description: "Amar Hazem | Full Stack Engineer",
+  title: "Amar Hazem | Full Stack Engineer",
 };
 
 interface RootLayoutProps {

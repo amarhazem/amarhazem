@@ -36,6 +36,7 @@
   "editor.minimap.enabled": true,
   "editor.renderFinalNewline": "on",
   "editor.renderWhitespace": "boundary",
+  "editor.smoothScrolling": true,
   "editor.tabSize": 2,
   "editor.trimAutoWhitespace": true,
   "editor.wordWrap": "on",
