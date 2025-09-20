@@ -33,6 +33,18 @@ export const metadata: Metadata = {
     title: "Amar Hazem | Full Stack Engineer",
     type: "website",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      follow: true,
+      index: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+      noimageindex: false,
+    },
+  },
   title: "Amar Hazem | Full Stack Engineer",
   twitter: {
     card: "summary_large_image",
