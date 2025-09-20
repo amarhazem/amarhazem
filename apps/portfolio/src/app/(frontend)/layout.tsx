@@ -20,7 +20,26 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   description: "Amar Hazem | Full Stack Engineer",
+  openGraph: {
+    description: "Amar Hazem | Full Stack Engineer",
+    images: [
+      {
+        alt: "Amar Hazem | Full Stack Engineer",
+        height: 180,
+        url: "/opengraph-image.png",
+        width: 180,
+      },
+    ],
+    title: "Amar Hazem | Full Stack Engineer",
+    type: "website",
+  },
   title: "Amar Hazem | Full Stack Engineer",
+  twitter: {
+    card: "summary_large_image",
+    description: "Amar Hazem | Full Stack Engineer",
+    images: ["/twitter-image.png"],
+    title: "Amar Hazem | Full Stack Engineer",
+  },
 };
 
 interface RootLayoutProps {
