@@ -95,6 +95,10 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Apps",
+    singular: "App",
+  },
   slug: "apps",
   versions: {
     drafts: true,

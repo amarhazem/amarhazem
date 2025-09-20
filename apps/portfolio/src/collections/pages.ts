@@ -203,6 +203,10 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Pages",
+    singular: "Page",
+  },
   slug: "pages",
   versions: {
     drafts: true,

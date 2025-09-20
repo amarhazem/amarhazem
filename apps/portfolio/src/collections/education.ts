@@ -233,6 +233,10 @@ export default {
       type: "array",
     },
   ],
+  labels: {
+    plural: "Education",
+    singular: "Education",
+  },
   slug: "education",
   versions: {
     drafts: true,

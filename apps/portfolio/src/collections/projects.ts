@@ -296,6 +296,10 @@ export default {
       type: "array",
     },
   ],
+  labels: {
+    plural: "Projects",
+    singular: "Project",
+  },
   slug: "projects",
   versions: {
     drafts: true,

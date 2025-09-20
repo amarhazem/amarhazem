@@ -299,6 +299,10 @@ export default {
       type: "array",
     },
   ],
+  labels: {
+    plural: "Experience",
+    singular: "Experience",
+  },
   slug: "experience",
   versions: {
     drafts: true,

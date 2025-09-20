@@ -131,15 +131,6 @@ export default {
           ],
           type: "select",
         },
-        {
-          admin: {
-            description: "User's timezone",
-          },
-          defaultValue: "UTC",
-          label: "Timezone",
-          name: "timezone",
-          type: "text",
-        },
       ],
       label: "Preferences",
       name: "preferences",
@@ -213,6 +204,10 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Users",
+    singular: "User",
+  },
   slug: "users",
   versions: {
     drafts: true,

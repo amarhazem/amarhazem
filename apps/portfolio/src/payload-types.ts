@@ -66,9 +66,12 @@ export interface Config {
     users: UserAuthOperations;
   };
   blocks: {
+    account: Account;
+    'apps-block': AppsBlock;
     brand: Brand;
     hero: Hero;
     license: License;
+    'social-networks-block': SocialNetworksBlock;
     spacer: Spacer;
     version: Version;
   };
@@ -118,10 +121,12 @@ export interface Config {
   };
   globals: {
     footer: Footer;
+    header: Header;
     'site-settings': SiteSetting;
   };
   globalsSelect: {
     footer: FooterSelect<false> | FooterSelect<true>;
+    header: HeaderSelect<false> | HeaderSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
@@ -150,6 +155,26 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "account".
+ */
+export interface Account {
+  account?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'account';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apps-block".
+ */
+export interface AppsBlock {
+  apps?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'apps-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -339,6 +364,16 @@ export interface License {
   id?: string | null;
   blockName?: string | null;
   blockType: 'license';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-networks-block".
+ */
+export interface SocialNetworksBlock {
+  socialNetworks?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'social-networks-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -578,10 +613,6 @@ export interface User {
      * Preferred interface language
      */
     language?: ('en' | 'fr' | 'jp') | null;
-    /**
-     * User's timezone
-     */
-    timezone?: string | null;
   };
   /**
    * User's role and permissions level
@@ -3782,7 +3813,6 @@ export interface UsersSelect<T extends boolean = true> {
     | {
         emailNotifications?: T;
         language?: T;
-        timezone?: T;
       };
   role?: T;
   socialLinks?:
@@ -3880,6 +3910,50 @@ export interface Footer {
             id?: string | null;
             blockName?: string | null;
             blockType: 'version';
+          }
+      )[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: number;
+  blocks?:
+    | (
+        | {
+            account?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'account';
+          }
+        | {
+            apps?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'apps-block';
+          }
+        | {
+            appName: string;
+            logo?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'brand';
+          }
+        | {
+            spacer?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'spacer';
+          }
+        | {
+            socialNetworks?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'social-networks-block';
           }
       )[]
     | null;
@@ -4054,6 +4128,55 @@ export interface FooterSelect<T extends boolean = true> {
               versionNumber?: T;
               changelogUrl?: T;
               linkText?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  blocks?:
+    | T
+    | {
+        account?:
+          | T
+          | {
+              account?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'apps-block'?:
+          | T
+          | {
+              apps?: T;
+              id?: T;
+              blockName?: T;
+            };
+        brand?:
+          | T
+          | {
+              appName?: T;
+              logo?: T;
+              id?: T;
+              blockName?: T;
+            };
+        spacer?:
+          | T
+          | {
+              spacer?: T;
+              id?: T;
+              blockName?: T;
+            };
+        'social-networks-block'?:
+          | T
+          | {
+              socialNetworks?: T;
               id?: T;
               blockName?: T;
             };

@@ -291,6 +291,10 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Institutions",
+    singular: "Institution",
+  },
   slug: "institutions",
   versions: {
     drafts: true,

@@ -164,6 +164,10 @@ export default {
       type: "group",
     },
   ],
+  labels: {
+    plural: "Categories",
+    singular: "Category",
+  },
   slug: "categories",
   versions: {
     drafts: true,

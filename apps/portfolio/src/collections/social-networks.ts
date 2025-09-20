@@ -135,6 +135,10 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Social Networks",
+    singular: "Social Network",
+  },
   slug: "social-networks",
   versions: {
     drafts: true,

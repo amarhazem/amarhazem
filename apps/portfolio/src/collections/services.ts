@@ -296,6 +296,10 @@ export default {
       type: "array",
     },
   ],
+  labels: {
+    plural: "Services",
+    singular: "Service",
+  },
   slug: "services",
   versions: {
     drafts: true,
