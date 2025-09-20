@@ -1,0 +1,14 @@
+services:
+  {{ service_name}}:
+    environment:
+      - discovery.type=${ELASTICSEARCH_DISCOVERY_TYPE:-single-node}
+      - xpack.security.enabled=${ELASTICSEARCH_XPACK_SECURITY_ENABLED:-false}
+      - "ES_JAVA_OPTS=-Xms${ELASTICSEARCH_JAVA_OPTS_XMS:-512m} -Xmx${ELASTICSEARCH_JAVA_OPTS_XMX:-512m}"
+      - cluster.name=${ELASTICSEARCH_CLUSTER_NAME:-docker-cluster}
+    image: elasticsearch:${ELASTICSEARCH_VERSION:-8.11.0}
+    networks:
+      - network
+    restart: unless-stopped
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+

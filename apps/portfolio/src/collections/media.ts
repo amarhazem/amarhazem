@@ -1,11 +1,13 @@
+import anyone from "@/access/anyone";
+import authenticated from "@/access/authenticated";
 import type { CollectionConfig } from "payload";
 
 export default {
   access: {
-    create: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-    read: () => true,
-    update: ({ req }) => !!req.user,
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
   },
   admin: {
     description: "Manage media files",
@@ -151,7 +153,9 @@ export default {
     ],
     mimeTypes: ["application/pdf", "image/*", "video/*"],
   },
+  trash: true,
   versions: {
+    autosave: true,
     drafts: true,
   },
 } as CollectionConfig;

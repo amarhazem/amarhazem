@@ -1,0 +1,31 @@
+{
+  "author": {
+    "email": "amar.hazem@icloud.com",
+    "name": "Amar Hazem",
+    "url": "https://amarhazem.com"
+  },
+  "bugs": {
+    "url": "https://github.com/amarhazem/amarhazem/issues"
+  },
+  "contributors": [],
+  "description": "All necessary tools to build and deploy a node.js service",
+  "engines": {
+    "node": "22.18.0"
+  },
+  "homepage": "https://amarhazem.com",
+  "keywords": [
+    "amarhazem",
+    "app",
+    "service"
+  ],
+  "license": "MIT",
+  "name": "@ahs/app",
+  "packageManager": "pnpm@10.18.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amarhazem/amarhazem.git"
+  },
+  "scripts": {},
+  "version": "2025.9.0"
+}

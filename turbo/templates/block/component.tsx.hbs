@@ -1,0 +1,16 @@
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import type { JSX, ReactNode } from "react";
+
+interface {{ pascalCase name }}Props {
+  children: JSX.Element;
+}
+
+export const {{ pascalCase name }} = ({ children }: {{ pascalCase name }}Props): ReactNode => {
+  return (
+    <Box>
+      <Typography>{{ pascalCase name }} Component</Typography>
+      {children}
+    </Box>
+  );
+};

@@ -1,0 +1,36 @@
+name: ah
+networks:
+  network:
+services:
+  mailhog:
+    extends:
+      file: ../../services/mailhog/docker-compose.yaml
+      service: mailhog
+  minio:
+    extends:
+      file: ../../services/minio/docker-compose.yaml
+      service: minio
+  pgadmin4:
+    extends:
+      file: ../../services/pgadmin4/docker-compose.yaml
+      service: pgadmin4
+  portfolio:
+    extends:
+      file: ../../services/app/docker-compose.yaml
+      service: app
+    labels:
+      - "traefik.http.routers.portfolio.entrypoints=web"
+      - "traefik.http.routers.portfolio.rule=Host(`amarhazem.localtest.me`)"
+      - "traefik.http.services.portfolio.loadbalancer.server.port=3000"
+  postgres:
+    extends:
+      file: ../../services/postgres/docker-compose.yaml
+      service: postgres
+  traefik:
+    extends:
+      file: ../../services/traefik/docker-compose.yaml
+      service: traefik
+volumes:
+  minio:
+  pgadmin4:
+  postgres:

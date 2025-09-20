@@ -7,17 +7,17 @@
   "bugs": {
     "url": "https://github.com/amarhazem/amarhazem/issues"
   },
+  "contributors": [],
   "description": "All necessary tools to build and deploy a traefik service",
   "homepage": "https://amarhazem.com",
   "keywords": [
     "amarhazem",
-    "proxy",
-    "reverse proxy",
+    "service",
     "traefik"
   ],
   "license": "MIT",
   "name": "@ahs/traefik",
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.18.0",
   "private": true,
   "repository": {
     "type": "git",

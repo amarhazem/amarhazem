@@ -1,9 +1,11 @@
+import anyone from "@/access/anyone";
+import authenticated from "@/access/authenticated";
 import type { GlobalConfig } from "payload";
 
 export default {
   access: {
-    read: () => true,
-    update: ({ req }) => !!req.user,
+    read: anyone,
+    update: authenticated,
   },
   admin: {
     group: "Settings",

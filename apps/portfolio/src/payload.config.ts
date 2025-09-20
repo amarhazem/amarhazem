@@ -1,15 +1,22 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { resendAdapter } from "@payloadcms/email-resend";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
+import { seoPlugin } from "@payloadcms/plugin-seo";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
+import { en } from "@payloadcms/translations/languages/en";
+import { fr } from "@payloadcms/translations/languages/fr";
+import { ja } from "@payloadcms/translations/languages/ja";
 import path from "path";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { fileURLToPath } from "url";
+import Account from "./blocks/account";
+import AppsBlock from "./blocks/apps";
 import Brand from "./blocks/brand";
 import Hero from "./blocks/hero";
 import License from "./blocks/license";
+import SocialNetworksBlock from "./blocks/social-networks";
 import Spacer from "./blocks/spacer";
 import Version from "./blocks/version";
 import Apps from "./collections/apps";
@@ -28,7 +35,9 @@ import SocialNetworks from "./collections/social-networks";
 import Testimonials from "./collections/testimonials";
 import Users from "./collections/users";
 import Footer from "./globals/footer";
+import Header from "./globals/header";
 import SiteSettings from "./globals/site-settings";
+import { Page } from "./payload-types";
 import env from "./utils/env";
 
 const filename = fileURLToPath(import.meta.url);
@@ -39,9 +48,23 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    livePreview: {
+      collections: ["pages"],
+      globals: ["footer", "header"],
+      url: env.APP_URL,
+    },
     user: Users.slug,
   },
-  blocks: [Brand, Hero, License, Spacer, Version],
+  blocks: [
+    Account,
+    AppsBlock,
+    Brand,
+    Hero,
+    License,
+    SocialNetworksBlock,
+    Spacer,
+    Version,
+  ],
   collections: [
     Apps,
     BlogPosts,
@@ -70,9 +93,27 @@ export default buildConfig({
     defaultFromName: "Amar Hazem",
     apiKey: env.RESEND_API_KEY,
   }),
-  globals: [Footer, SiteSettings],
+  globals: [Footer, Header, SiteSettings],
+  i18n: {
+    fallbackLanguage: "en",
+    supportedLanguages: { en, fr, ja },
+  },
+  localization: {
+    defaultLocale: "en",
+    locales: ["en", "fr", "ja"],
+  },
   plugins: [
     payloadCloudPlugin(),
+    seoPlugin({
+      collections: ["pages"],
+      generateDescription: ({ doc }: { doc: Page }): string =>
+        doc.excerpt ?? "",
+      generateTitle: ({ doc }: { doc: Page }): string =>
+        doc?.title ? `${doc.title} | Amar Hazem` : "Amar Hazem",
+      generateURL: ({ doc }: { doc: Page }): string =>
+        doc?.slug ? `${env.APP_URL}/${doc.slug}` : env.APP_URL,
+      uploadsCollection: "media",
+    }),
     vercelBlobStorage({
       collections: {
         media: {

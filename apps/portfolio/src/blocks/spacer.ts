@@ -3,11 +3,11 @@ import type { Block } from "payload";
 export default {
   fields: [
     {
-      defaultValue: "spacer",
       admin: {
         hidden: true,
         readOnly: true,
       },
+      defaultValue: "spacer",
       label: "Spacer",
       name: "spacer",
       type: "text",

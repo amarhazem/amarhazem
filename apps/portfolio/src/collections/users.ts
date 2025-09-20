@@ -1,11 +1,12 @@
+import authenticated from "@/access/authenticated";
 import type { CollectionConfig } from "payload";
 
 export default {
   access: {
-    create: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-    read: ({ req }) => !!req.user,
-    update: ({ req }) => !!req.user,
+    create: authenticated,
+    delete: authenticated,
+    read: authenticated,
+    update: authenticated,
   },
   admin: {
     description: "Manage user accounts and permissions",
@@ -131,15 +132,6 @@ export default {
           ],
           type: "select",
         },
-        {
-          admin: {
-            description: "User's timezone",
-          },
-          defaultValue: "UTC",
-          label: "Timezone",
-          name: "timezone",
-          type: "text",
-        },
       ],
       label: "Preferences",
       name: "preferences",
@@ -213,8 +205,14 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Users",
+    singular: "User",
+  },
   slug: "users",
+  trash: true,
   versions: {
+    autosave: true,
     drafts: true,
   },
 } as CollectionConfig;

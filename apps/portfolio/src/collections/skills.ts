@@ -1,11 +1,13 @@
+import anyone from "@/access/anyone";
+import authenticated from "@/access/authenticated";
 import type { CollectionConfig } from "payload";
 
 export default {
   access: {
-    create: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-    read: () => true,
-    update: ({ req }) => !!req.user,
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
   },
   admin: {
     description: "Manage skills and competencies",
@@ -231,8 +233,14 @@ export default {
       type: "number",
     },
   ],
+  labels: {
+    plural: "Skills",
+    singular: "Skill",
+  },
   slug: "skills",
+  trash: true,
   versions: {
+    autosave: true,
     drafts: true,
   },
 } as CollectionConfig;

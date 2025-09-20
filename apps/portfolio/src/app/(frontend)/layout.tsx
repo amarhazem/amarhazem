@@ -1,28 +1,24 @@
-import Account from "@/components/account/account";
-import Apps from "@/components/apps/apps";
 import Footer from "@/components/footer/footer";
-import SocialNetworks from "@/components/social-networks/social-networks";
+import Header from "@/components/header/header";
 import env from "@/utils/env";
 import payload from "@/utils/payload";
 import { theme } from "@/utils/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import { ThemeProvider } from "@mui/material/styles";
-import Toolbar from "@mui/material/Toolbar";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import type { Metadata } from "next";
+import { getLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   description: "Amar Hazem | Full Stack Engineer",
-  metadataBase: new URL(env.CMS_URL),
+  metadataBase: new URL(env.APP_URL),
   openGraph: {
     description: "Amar Hazem | Full Stack Engineer",
     images: [
@@ -64,13 +60,19 @@ interface RootLayoutProps {
 export default async function RootLayout({
   children,
 }: RootLayoutProps): Promise<ReactNode> {
-  const shouldInjectToolbar = env.NODE_ENV === "development";
+  const language = await getLocale();
   const footerData = await payload.findGlobal({
+    locale: language as "en" | "fr" | "ja",
     slug: "footer",
   });
+  const headerData = await payload.findGlobal({
+    locale: language as "en" | "fr" | "ja",
+    slug: "header",
+  });
+  const shouldInjectToolbar = env.NODE_ENV === "development";
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={language} suppressHydrationWarning>
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
@@ -90,22 +92,11 @@ export default async function RootLayout({
             <InitColorSchemeScript attribute="class" />
             <SpeedInsights />
             {shouldInjectToolbar && <VercelToolbar />}
-            <AppBar position="sticky">
-              <Toolbar sx={{ alignItems: "stretch" }}>
-                <Button
-                  color="inherit"
-                  href="/"
-                  sx={{ fontSize: "1.5rem", textWrap: "nowrap" }}
-                >
-                  Amar Hazem
-                </Button>
-                <Box sx={{ flexGrow: 1 }} />
-                <SocialNetworks />
-                <Apps />
-                <Account />
-              </Toolbar>
-            </AppBar>
-            <Box component="main" sx={{ flexGrow: 1 }}>
+            <Header headerData={headerData} />
+            <Box
+              component="main"
+              sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
+            >
               {children}
             </Box>
             <Footer footerData={footerData} />

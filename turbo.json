@@ -18,6 +18,9 @@
     },
     "lint": {
       "dependsOn": ["^lint"]
+    },
+    "storybook": {
+      "dependsOn": ["^storybook"]
     }
   },
   "ui": "tui"

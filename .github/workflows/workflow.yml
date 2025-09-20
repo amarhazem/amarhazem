@@ -1,0 +1,188 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Build and cache Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          load: true
+          target: deps
+          tags: ci:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  lint:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Lint affected applications
+        run: docker run --rm ci:latest turbo run lint --affected
+
+  unit-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Run unit tests
+        run: docker run --rm ci:latest turbo run test --affected
+
+  e2e-tests:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Run e2e tests
+        run: docker run --rm ci:latest turbo run test:e2e --affected
+
+  deploy:
+    needs: [lint, unit-tests, e2e-tests]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Run build
+        run: docker run --rm ci:latest turbo run docker:build
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image to GitHub Container Registry
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ matrix.app }}:${{ github.ref_name }}
+      - name: Deploy to Production
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.USERNAME }}
+          password: ${{ env.PASSWORD }}
+          envs: NAMESPACE,REGISTRY,OWNER,TAG
+          env: |
+            NAMESPACE=${{ env.NAMESPACE }}
+            REGISTRY=${{ env.REGISTRY }}
+            OWNER=${{ env.OWNER }}
+            TAG=${{ github.ref_name }}
+          script: |
+            # Deploy affected applications using Helm
+            turbo run helm:deploy --affected
+
+  changelog:
+    needs: [e2e-tests, lint, unit-tests]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Get previous tag
+        id: previous_tag
+        run: |
+          echo "tag=$(git describe --tags --abbrev=0 ${{ github.sha }}^)" >> $GITHUB_OUTPUT
+      - name: Detect changed folders
+        id: detect_changes
+        run: |
+          CHANGED=$(git diff --name-only ${{ steps.previous_tag.outputs.tag }}..${{ github.sha }} | grep -E '^(applications|packages|infra)/[^/]+/' | cut -d/ -f1,2 | sort -u)
+          echo "$CHANGED" > changed_paths.txt
+          echo "changed_paths=$(jq -Rn '[inputs]' < changed_paths.txt)" >> $GITHUB_OUTPUT
+      - name: Generate individual changelogs
+        run: |
+          while read path; do
+            mkdir -p $path
+            echo "## Version ${{ github.ref_name }}" > $path/CHANGELOG.md
+            git log ${{ steps.previous_tag.outputs.tag }}..${{ github.sha }} --pretty=format:"- %s" -- $path >> $path/CHANGELOG.md
+            echo "✅ Changelog generated for $path"
+          done < changed_paths.txt
+      - name: Generate global changelog
+        run: |
+          echo "# 🧾 Changelog global – Version ${{ github.ref_name }}" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          while read path; do
+            NAME=$(basename $path)
+            LINK="$path/CHANGELOG.md"
+            echo "- [$path](./$LINK)" >> CHANGELOG.md
+          done < changed_paths.txt
+      - name: Commit and push changelogs
+        run: |
+          git add CHANGELOG.md $(cat changed_paths.txt | sed 's|$|/CHANGELOG.md|')
+          git commit -m "📦 Changelog(s) généré(s) pour ${{ github.ref_name }}" || echo "Aucun changement"
+          git push
+
+  wiki:
+    needs: [e2e-tests, lint, unit-tests]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Clone Wiki
+        run: |
+          git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" wiki-tmp
+      - name: Sync local wiki to GitHub Wiki
+        run: |
+          rm -rf wiki-tmp/*
+          cp -r wiki/* wiki-tmp/
+          cd wiki-tmp
+          git add .
+          git commit -m "🔄 Mise à jour automatique du Wiki avec la version ${{ github.ref_name }}" || echo "Aucun changement"
+          git push

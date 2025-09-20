@@ -1,4 +1,5 @@
 import Block from "@/components/page/page-block";
+import RefreshRouteOnSave from "@/components/page/refresh-route-on-save";
 import type { Page } from "@/payload-types";
 import env from "@/utils/env";
 import { PayloadAdminBar } from "@payloadcms/admin-bar";
@@ -11,8 +12,9 @@ interface PageProps {
 export default function Page({ pageData }: PageProps): ReactNode {
   return (
     <>
+      <RefreshRouteOnSave />
       <PayloadAdminBar
-        cmsURL={env.CMS_URL}
+        cmsURL={env.APP_URL}
         id={pageData.id.toString()}
         style={{ position: "relative", zIndex: 1 }}
       />

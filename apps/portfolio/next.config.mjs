@@ -1,12 +1,17 @@
 import { withPayload } from "@payloadcms/next/withPayload";
 import { withSentryConfig } from "@sentry/nextjs";
 import createWithVercelToolbar from "@vercel/toolbar/plugins/next";
+import createNextIntlPlugin from "next-intl/plugin";
 
+const withNextIntl = createNextIntlPlugin();
 const withVercelToolbar = createWithVercelToolbar();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
+  allowedDevOrigins: ["amarhazem.localtest.me"],
+  output: "standalone",
+  reactStrictMode: true,
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
       ".cjs": [".cts", ".cjs"],
@@ -20,7 +25,7 @@ const nextConfig = {
 
 export default withVercelToolbar(
   withSentryConfig(
-    withPayload(nextConfig, { devBundleServerPackages: false }),
+    withNextIntl(withPayload(nextConfig, { devBundleServerPackages: false })),
     {
       // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
       // See the following for more information:

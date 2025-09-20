@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "extends": "@ahp/typescript/tsconfig",
+  "include": ["**/*.ts", "**/*.tsx"]
+}

@@ -19,23 +19,11 @@
   },
   "homepage": "https://amarhazem.com",
   "keywords": [
-    "amar",
-    "amarhazem",
-    "engineer",
-    "full stack engineer",
-    "hazem",
-    "monorepo",
-    "nextjs",
-    "nodejs",
-    "portfolio",
-    "react",
-    "typescript",
-    "turborepo",
-    "web developer"
+    "amarhazem"
   ],
   "license": "MIT",
   "name": "amarhazem",
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.18.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -46,7 +34,8 @@
     "check-types": "turbo run check-types",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "storybook": "turbo run storybook"
   },
   "type": "module",
   "version": "2025.9.0"

@@ -1,0 +1,37 @@
+{
+  "author": {
+    "email": "amar.hazem@icloud.com",
+    "name": "Amar Hazem",
+    "url": "https://amarhazem.com"
+  },
+  "bugs": {
+    "url": "https://github.com/amarhazem/amarhazem/issues"
+  },
+  "contributors": [],
+  "description": "Base Editorconfig Config for applications",
+  "engines": {
+    "node": "22.18.0"
+  },
+  "exports": {
+    "./base": "./src/base.config.mjs"
+  },
+  "homepage": "https://amarhazem.com",
+  "keywords": [
+    "amarhazem",
+    "editorconfig",
+    "package"
+  ],
+  "license": "MIT",
+  "name": "@ahp/editorconfig",
+  "packageManager": "pnpm@10.18.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amarhazem/amarhazem.git"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}

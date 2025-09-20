@@ -1,0 +1,47 @@
+{
+  "author": {
+    "email": "amar.hazem@icloud.com",
+    "name": "Amar Hazem",
+    "url": "https://amarhazem.com"
+  },
+  "bugs": {
+    "url": "https://github.com/amarhazem/amarhazem/issues"
+  },
+  "contributors": [],
+  "dependencies": {
+    "@mui/material": "6.2.0",
+    "payload": "3.56.0"
+  },
+  "description": "Base Blocks for applications",
+  "devDependencies": {
+    "@storybook/react": "9.1.8",
+    "vitest": "3.2.4"
+  },
+  "engines": {
+    "node": "22.18.0"
+  },
+  "exports": {
+    "./brand/block": "./src/brand/block.ts",
+    "./brand/component": "./src/brand/component.tsx",
+    "./brand/story": "./src/brand/story.ts"
+  },
+  "homepage": "https://amarhazem.com",
+  "keywords": [
+    "amarhazem",
+    "package",
+    "blocks"
+  ],
+  "license": "MIT",
+  "name": "@ahp/blocks",
+  "packageManager": "pnpm@10.18.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amarhazem/amarhazem.git"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}

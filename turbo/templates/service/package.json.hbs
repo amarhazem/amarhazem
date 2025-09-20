@@ -1,0 +1,9 @@
+{
+	"description": "{{ service_name }}",
+	"name": "@ah/{{ service_name }}",
+	"private": true,
+	"scripts": {
+		"helm:deploy": "helm upgrade --install {{ service_name }} ./helm/{{ service_name }} --namespace $NAMESPACE --wait"
+	},
+	"version": "25.4.30"
+}

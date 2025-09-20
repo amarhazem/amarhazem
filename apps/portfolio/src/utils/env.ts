@@ -3,8 +3,8 @@
 import { z } from "zod";
 
 const envSchema = z.object({
+  APP_URL: z.url(),
   BLOB_READ_WRITE_TOKEN: z.string(),
-  CMS_URL: z.url(),
   DATABASE_URL: z.string(),
   NODE_ENV: z.string(),
   PAYLOAD_SECRET: z.string(),

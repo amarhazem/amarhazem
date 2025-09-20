@@ -1,0 +1,44 @@
+{
+  "author": {
+    "email": "amar.hazem@icloud.com",
+    "name": "Amar Hazem",
+    "url": "https://amarhazem.com"
+  },
+  "bugs": {
+    "url": "https://github.com/amarhazem/amarhazem/issues"
+  },
+  "contributors": [],
+  "dependencies": {
+    "@mui/material": "7.3.2",
+    "@mui/icons-material": "7.3.2",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "next": "15.2.3"
+  },
+  "description": "Shared MUI theme for Amar Hazem applications",
+  "engines": {
+    "node": "22.18.0"
+  },
+  "exports": {
+    "./theme": "./src/theme.ts"
+  },
+  "homepage": "https://amarhazem.com",
+  "keywords": [
+    "amarhazem",
+    "package",
+    "theme"
+  ],
+  "license": "MIT",
+  "name": "@ahp/theme",
+  "packageManager": "pnpm@10.18.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amarhazem/amarhazem.git"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}

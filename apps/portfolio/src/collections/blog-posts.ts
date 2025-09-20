@@ -1,12 +1,14 @@
+import anyone from "@/access/anyone";
+import authenticated from "@/access/authenticated";
 import type { CollectionConfig } from "payload";
 import slugify from "../utils/slugify";
 
 export default {
   access: {
-    create: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-    read: () => true,
-    update: ({ req }) => !!req.user,
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
   },
   admin: {
     description: "Manage blog posts and articles",
@@ -208,8 +210,14 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Blog Posts",
+    singular: "Blog Post",
+  },
   slug: "blog-posts",
+  trash: true,
   versions: {
+    autosave: true,
     drafts: true,
   },
 } as CollectionConfig;

@@ -1,0 +1,38 @@
+{
+  "author": {
+    "email": "amar.hazem@icloud.com",
+    "name": "Amar Hazem",
+    "url": "https://amarhazem.com"
+  },
+  "bugs": {
+    "url": "https://github.com/amarhazem/amarhazem/issues"
+  },
+  "contributors": [],
+  "description": "Sentry Config for applications",
+  "engines": {
+    "node": "22.18.0"
+  },
+  "exports": {
+    "./sentry.server.config": "./src/sentry.server.config.ts",
+    "./sentry.edge.config": "./src/sentry.edge.config.ts"
+  },
+  "homepage": "https://amarhazem.com",
+  "keywords": [
+    "amarhazem",
+    "package",
+    "sentry"
+  ],
+  "license": "MIT",
+  "name": "@ahp/sentry",
+  "packageManager": "pnpm@10.18.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amarhazem/amarhazem.git"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}

@@ -1,0 +1,43 @@
+# To do list
+
+- .cursor
+  - Faire règles Cursor
+- .devcontainer
+  - Faire devcontainer
+- .github
+  - Faire issue template de bug
+  - Faire issue template de story
+  - Faire workflow prettier
+  - Faire workflow eslint
+  - Faire workflow unit tests
+  - Faire workflow e2e tests
+- .vscode
+  - Faire launch.json
+  - Faire extensions.json
+- apps
+  - docs
+  - portfolio
+  - storybook
+- packages
+  - blocks
+  - commitlint
+  - editorconfig
+  - eslint
+  - playwright
+  - prettier
+  - sentry
+  - typescript
+  - vitest
+- services
+  - mailhog
+  - minio
+  - pgadmin4
+  - postgres
+  - traefik
+- turbo
+  - application
+  - block
+  - collection
+  - global
+  - package
+  - service

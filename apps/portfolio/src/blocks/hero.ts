@@ -95,6 +95,7 @@ export default {
         },
         {
           label: "Button Text",
+          localized: true,
           name: "label",
           required: true,
           type: "text",
@@ -157,6 +158,7 @@ export default {
         description: "Subtitle or short description",
       },
       label: "Subtitle",
+      localized: true,
       name: "subtitle",
       type: "textarea",
     },
@@ -193,6 +195,7 @@ export default {
         description: "Main title of the hero section",
       },
       label: "Main Title",
+      localized: true,
       name: "title",
       required: true,
       type: "text",

@@ -1,0 +1,102 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [account, chat, gaming, manga-reader, portfolio, tasks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: |
+          cd apps/${{ matrix.app }}
+          npm install
+
+      - name: Run unit tests
+        run: |
+          cd apps/${{ matrix.app }}
+          npm test
+
+      - name: Run E2E tests
+        run: |
+          cd apps/${{ matrix.app }}
+          npm run e2e
+
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [account, chat, gaming, manga-reader, portfolio, tasks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: |
+          cd apps/${{ matrix.app }}
+          npm install
+
+      - name: Run linter
+        run: |
+          cd apps/${{ matrix.app }}
+          npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [account, chat, gaming, manga-reader, portfolio, tasks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: |
+          cd apps/${{ matrix.app }}
+          npm install
+
+      - name: Build application
+        run: |
+          cd apps/${{ matrix.app }}
+          npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        app: [account, chat, gaming, manga-reader, portfolio, tasks]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy application
+        run: |
+          cd apps/${{ matrix.app }}
+          npm run deploy

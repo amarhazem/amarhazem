@@ -1,0 +1,47 @@
+{
+  "author": {
+    "email": "amar.hazem@icloud.com",
+    "name": "Amar Hazem",
+    "url": "https://amarhazem.com"
+  },
+  "bugs": {
+    "url": "https://github.com/amarhazem/amarhazem/issues"
+  },
+  "contributors": [],
+  "dependencies": {
+    "next": "15.5.4",
+    "nextra": "4.5.0",
+    "nextra-theme-docs": "4.5.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "description": "Amar Hazem's Docs package",
+  "devDependencies": {
+    "@types/node": "22.18.1",
+    "@types/react": "19.1.13",
+    "pagefind": "1.4.0",
+    "typescript": "5.9.2"
+  },
+  "homepage": "https://docs.amarhazem.com",
+  "keywords": [
+    "amarhazem",
+    "app",
+    "docs"
+  ],
+  "license": "MIT",
+  "name": "@aha/docs",
+  "packageManager": "pnpm@10.18.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amarhazem/amarhazem.git"
+  },
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
+    "start": "next start"
+  },
+  "type": "module",
+  "version": "2025.9.0"
+}

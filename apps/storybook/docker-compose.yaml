@@ -1,0 +1,19 @@
+name: ah
+networks:
+  network:
+services:
+  storybook:
+    command: "sh -c '
+      pnpm install --filter=@aha/storybook... &&
+      pnpm --filter=@aha/storybook storybook'"
+    extends:
+      file: ../../services/app/docker-compose.yaml
+      service: app
+    labels:
+      - "traefik.http.routers.storybook.entrypoints=web"
+      - "traefik.http.routers.storybook.rule=Host(`storybook.amarhazem.localtest.me`)"
+      - "traefik.http.services.storybook.loadbalancer.server.port=3000"
+  traefik:
+    extends:
+      file: ../../services/traefik/docker-compose.yaml
+      service: traefik

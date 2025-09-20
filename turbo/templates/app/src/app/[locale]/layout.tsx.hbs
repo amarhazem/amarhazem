@@ -1,0 +1,79 @@
+import AccountMenu from "@ah/ui/account-menu";
+import applicationsMenu from "@ah/ui/applications-menu";
+import Brand from "@ah/ui/brand";
+import GTag from "@ah/ui/gtag";
+import ThemeProvider from "@ah/ui/theme-provider";
+import WebVitals from "@ah/ui/web-vitals";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import type { JSX } from "react";
+
+import { routing } from "@/i18n/routing";
+
+export const metadata: Metadata = {
+	description: "{{description}}",
+	title: "{{title}}",
+};
+
+interface LocaleLayoutProps {
+	children: JSX.Element;
+	params: Promise<{
+		locale: "en" | "fr" | "jp";
+	}>;
+}
+
+export default async function LocaleLayout({
+	children,
+	params,
+}: LocaleLayoutProps): Promise<JSX.Element> {
+	const { locale } = await params;
+	const t = await getTranslations("locale.layout");
+
+	if (!hasLocale(routing.locales, locale)) {
+		notFound();
+	}
+
+	return (
+		<html lang={locale}>
+			<body>
+				<NextIntlClientProvider>
+					<ThemeProvider>
+						<>
+							<GTag />
+							<WebVitals />
+							<AppBar position="sticky">
+								<Toolbar sx={{ alignItems: "stretch" }}>
+									<Brand
+										logo={
+											<Typography sx={{ display: { md: "none" } }} variant="h6">
+												{{shortName}}
+											</Typography>
+										}
+										title="{{title}}"
+									/>
+									<Box sx={{ flexGrow: 1, padding: 0 }} />
+									<applicationsMenu />
+									<AccountMenu />
+								</Toolbar>
+							</AppBar>
+							<Box
+								component="main"
+								display="flex"
+								flexDirection="column"
+								sx={{ flex: 1 }}
+							>
+								{children}
+							</Box>
+						</>
+					</ThemeProvider>
+				</NextIntlClientProvider>
+			</body>
+		</html>
+	);
+}

@@ -1,0 +1,14 @@
+{ "author": { "email": "amar-hazem@icloud.com", "name": "Amar Hazem",
+"organization": "Amar Hazem", "role": "Software Engineering", "url":
+"https://amar-hazem.com" }, "dependencies": { "@auth/prisma-adapter": "^2.8.0",
+"@prisma/client": "^6.5.0", "bcrypt": "^5.1.1", "next-auth": "^4.24.11" },
+"description": "@ah/next-auth", "devDependencies": { "typescript": "^5.7.3" },
+"engines": { "node": "22.16.0" }, "exports": { "./*": "./src/**/*.ts" },
+"homepage": "https://amar-hazem.com", "keywords": ["amar-hazem"], "license":
+"MIT", "name": "@ah/next-auth", "packageManager": "pnpm@10.6.5", "private":
+true, "repository": { "type": "git", "url":
+"https://github.com/amar-hazem/amar-hazem.git" }, "scripts": { "build": "next
+build", "dev": "NODE_OPTIONS='--inspect=0.0.0.0:9229' next dev", "lint": "next
+lint --max-warnings 0", "prisma:generate": "prisma generate", "prisma:migrate":
+"prisma migrate dev", "start": "next start", "test": "jest", "test:watch": "jest
+--watch" }, "type": "module", "version": "25.4.30" }

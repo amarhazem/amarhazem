@@ -1,0 +1,34 @@
+{
+  "author": {
+    "email": "amar.hazem@icloud.com",
+    "name": "Amar Hazem",
+    "url": "https://amarhazem.com"
+  },
+  "bugs": {
+    "url": "https://github.com/amarhazem/amarhazem/issues"
+  },
+  "contributors": [],
+  "description": "@ahp/vitest",
+  "exports": {
+    "./vitest.config": "./src/vitest.config.ts"
+  },
+  "homepage": "https://amarhazem.com",
+  "keywords": [
+    "amarhazem",
+    "package",
+    "vitest"
+  ],
+  "license": "MIT",
+  "name": "@ahp/vitest",
+  "packageManager": "pnpm@10.18.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amarhazem/amarhazem.git"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}

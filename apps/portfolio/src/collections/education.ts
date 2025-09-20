@@ -1,11 +1,13 @@
+import anyone from "@/access/anyone";
+import authenticated from "@/access/authenticated";
 import type { CollectionConfig } from "payload";
 
 export default {
   access: {
-    create: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-    read: () => true,
-    update: ({ req }) => !!req.user,
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
   },
   admin: {
     description: "Manage education and certifications",
@@ -233,8 +235,14 @@ export default {
       type: "array",
     },
   ],
+  labels: {
+    plural: "Education",
+    singular: "Education",
+  },
   slug: "education",
+  trash: true,
   versions: {
+    autosave: true,
     drafts: true,
   },
 } as CollectionConfig;

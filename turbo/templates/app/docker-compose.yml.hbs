@@ -1,0 +1,33 @@
+name: ah
+
+networks:
+  network:
+
+services:
+  {{ app_name }}:
+    depends_on:
+      - postgres
+    extends:
+      file: ../../services/nextjs/docker-compose.yml
+      service: nextjs
+  postgres:
+    extends:
+      file: ../../services/postgres/docker-compose.yml
+      service: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  portfolio-prisma-studio:
+    env_file:
+      - ../../services/prisma-studio/.env
+    extends:
+      file: ../../services/prisma-studio/docker-compose.yml
+      service: prisma-studio
+  traefik:
+    env_file:
+      - ../../services/traefik/.env
+    extends:
+      file: ../../services/traefik/docker-compose.yml
+      service: traefik
+
+volumes:
+  postgres:

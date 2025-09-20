@@ -1,3 +1,5 @@
+import anyone from "@/access/anyone";
+import authenticated from "@/access/authenticated";
 import Brand from "@/blocks/brand";
 import License from "@/blocks/license";
 import Spacer from "@/blocks/spacer";
@@ -6,8 +8,8 @@ import type { GlobalConfig } from "payload";
 
 export default {
   access: {
-    read: () => true,
-    update: ({ req }) => !!req.user,
+    read: anyone,
+    update: authenticated,
   },
   admin: {
     group: "Layout",
@@ -20,5 +22,9 @@ export default {
       type: "blocks",
     },
   ],
+  labels: {
+    plural: "Footers",
+    singular: "Footer",
+  },
   slug: "footer",
 } as GlobalConfig;

@@ -1,0 +1,107 @@
+---
+alwaysApply: true
+description: Development rules for Amar Hazem monorepo
+globs: ["**/*"]
+---
+
+# Cursor Rules for Amar Hazem Monorepo
+
+> **Note**: This file will be split into multiple files when it becomes too large (>500 lines)
+
+## Project Context
+
+- Turborepo monorepo with pnpm
+- Shared packages: @ahp/blocks, @ahp/prettier, @ahp/commitlint, etc.
+- Apps: portfolio, docs, storybook
+- Services: postgres, traefik, mailhog, minio, pgadmin4
+- Stack: Next.js, React, TypeScript, Payload CMS, MUI
+
+## Development Rules
+
+### Structure and Organization
+
+- Respect the package structure in `/packages/`
+- Use exports defined in package.json for packages
+- Prefer relative imports in apps, absolute for packages
+- Follow naming convention: kebab-case for folders, camelCase for files
+
+### Code and Style
+
+- Always use strict TypeScript
+- Prefer interfaces over types when possible
+- Use MUI components consistently
+- Follow conventional commit conventions
+- Comment complex code, especially in shared packages
+
+### Shared Packages
+
+- Each package must have: component, block (Payload), story (Storybook)
+- Export configurations via package.json exports
+- Maintain consistency between packages
+- Document public APIs
+
+### Performance and Optimization
+
+- Use Turborepo tasks for builds
+- Optimize imports (tree-shaking)
+- Avoid unnecessary re-renders
+- Use Turborepo cache efficiently
+
+### Testing and Quality
+
+- Write tests for shared packages
+- Use Vitest for unit tests
+- Playwright for E2E tests
+- Maintain code coverage
+
+### Git and Workflow
+
+- Branches: main, develop, feature/\*
+- Commits: conventional commits
+- PRs: clear description, passing tests
+- Reviews: mandatory for main
+
+## Technical Preferences
+
+- Prefer functions over classes
+- Use modern React hooks
+- Avoid any, use unknown if necessary
+- Prefer composition over inheritance
+- Use auto-generated Payload types
+
+## Business Context
+
+- Personal portfolio of Amar Hazem
+- Technical skills showcase
+- Demonstration applications
+- Modular and reusable architecture
+
+## Context-Specific Rules
+
+### Packages (@ahp/\*)
+
+- Structure: block.ts, component.tsx, story.ts, test.ts
+- Exports via package.json exports
+- Auto-generated Payload types
+- Public API documentation
+
+### Apps (portfolio, docs, storybook)
+
+- Next.js App Router
+- Prefer server components
+- SEO and performance optimization
+- Use @ahp/\* packages
+
+### Docker Services
+
+- Configuration via docker-compose
+- Environment variables in .env
+- Mandatory health checks
+- Structured logs
+
+### GitHub Workflows
+
+- Official actions v4+
+- pnpm cache for performance
+- Mandatory tests before merge
+- Automatic formatting

@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      args:
+        - APP_NAME=${APP_NAME:-portfolio}
+        - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED:-1}
+        - NODE_VERSION=${NODE_VERSION:-22.18.0}
+        - PNPM_VERSION=${PNPM_VERSION:-10.18.0}
+        - STORYBOOK_TELEMETRY_DEBUG=${STORYBOOK_TELEMETRY_DEBUG:-1}
+        - TURBO_TELEMETRY_DISABLED=${TURBO_TELEMETRY_DISABLED:-1}
+      context: ../..
+      dockerfile: services/app/Dockerfile
+    container_name: ah-${APP_NAME:-portfolio}
+    environment:
+      - APP_NAME=${APP_NAME:-portfolio}
+      - APP_URL=${APP_URL:-http://amarhazem.localtest.me}
+      - BLOB_READ_WRITE_TOKEN=${BLOB_READ_WRITE_TOKEN:-vercel_blob_rw_TdialEIeeopvp9DC_GAssWBJCJeohF6VMN7ZVZ7q8WtK0x2}
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:postgres@postgres:5432/portfolio}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://amarhazem.localtest.me}
+      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED:-1}
+      - NODE_ENV=${NODE_ENV:-development}
+      - PAYLOAD_SECRET=${PAYLOAD_SECRET:-82f1882e69f6f168989a699d}
+      - RESEND_API_KEY=${RESEND_API_KEY:-re_gKystoQ8_24jxm2LLwv7hzaJMYN3fibsX}
+      - STORYBOOK_TELEMETRY_DEBUG=${STORYBOOK_TELEMETRY_DEBUG:-1}
+      - TURBO_TELEMETRY_DISABLED=${TURBO_TELEMETRY_DISABLED:-1}
+      - VERCEL_TELEMETRY_DEBUG=${VERCEL_TELEMETRY_DEBUG:-1}
+    image: app:${IMAGE_TAG:-latest}
+    labels:
+      - "traefik.enable=true"
+    networks:
+      - network
+    restart: unless-stopped
+    volumes:
+      - ../..:/workspaces/amarhazem
+      - /pnpm:/pnpm

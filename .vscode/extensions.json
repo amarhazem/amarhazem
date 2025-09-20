@@ -1,3 +1,13 @@
 {
-  "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+  "recommendations": [
+    "andrejunges.handlebars",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker",
+    "ms-playwright.playwright",
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode-remote.remote-wsl",
+    "streetsidesoftware.code-spell-checker",
+    "unifiedjs.vscode-mdx"
+  ]
 }

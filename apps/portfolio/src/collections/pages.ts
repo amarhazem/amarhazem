@@ -1,22 +1,24 @@
+import anyone from "@/access/anyone";
+import authenticated from "@/access/authenticated";
+import About from "@/blocks/about";
+import Blog from "@/blocks/blog";
+import Contact from "@/blocks/contact";
+import Education from "@/blocks/education";
+import Experience from "@/blocks/experience";
+import Hero from "@/blocks/hero";
+import Projects from "@/blocks/projects";
+import Services from "@/blocks/services";
+import Skills from "@/blocks/skills";
+import Testimonials from "@/blocks/testimonials";
+import slugify from "@/utils/slugify";
 import type { CollectionConfig } from "payload";
-import About from "../blocks/about";
-import Blog from "../blocks/blog";
-import Contact from "../blocks/contact";
-import Education from "../blocks/education";
-import Experience from "../blocks/experience";
-import Hero from "../blocks/hero";
-import Projects from "../blocks/projects";
-import Services from "../blocks/services";
-import Skills from "../blocks/skills";
-import Testimonials from "../blocks/testimonials";
-import slugify from "../utils/slugify";
 
 export default {
   access: {
-    create: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-    read: () => true,
-    update: ({ req }) => !!req.user,
+    create: authenticated,
+    delete: authenticated,
+    read: anyone,
+    update: authenticated,
   },
   admin: {
     description: "Manage site pages",
@@ -38,6 +40,7 @@ export default {
         description: "Short description of the page (optional)",
       },
       label: "Short Description",
+      localized: true,
       name: "excerpt",
       type: "textarea",
     },
@@ -94,6 +97,7 @@ export default {
             description: "Description for search engines (optional)",
           },
           label: "Meta Description",
+          localized: true,
           name: "description",
           type: "textarea",
         },
@@ -120,6 +124,7 @@ export default {
             description: "Keywords separated by commas",
           },
           label: "SEO Keywords",
+          localized: true,
           name: "keywords",
           type: "text",
         },
@@ -137,6 +142,7 @@ export default {
             description: "Title for search engines (optional)",
           },
           label: "SEO Title",
+          localized: true,
           name: "title",
           type: "text",
         },
@@ -198,13 +204,20 @@ export default {
         description: "Main title of the page",
       },
       label: "Page Title",
+      localized: true,
       name: "title",
       required: true,
       type: "text",
     },
   ],
+  labels: {
+    plural: "Pages",
+    singular: "Page",
+  },
   slug: "pages",
+  trash: true,
   versions: {
+    autosave: true,
     drafts: true,
   },
 } as CollectionConfig;
