@@ -1,7 +1,8 @@
+import Account from "@/blocks/account";
+import Apps from "@/blocks/apps";
 import Brand from "@/blocks/brand";
-import License from "@/blocks/license";
+import SocialNetworks from "@/blocks/social-networks";
 import Spacer from "@/blocks/spacer";
-import Version from "@/blocks/version";
 import type { GlobalConfig } from "payload";
 
 export default {
@@ -14,15 +15,15 @@ export default {
   },
   fields: [
     {
-      blocks: [Brand, License, Spacer, Version],
-      label: "Footer Blocks",
+      blocks: [Account, Apps, Brand, Spacer, SocialNetworks],
+      label: "Header Blocks",
       name: "blocks",
       type: "blocks",
     },
   ],
   labels: {
-    plural: "Footers",
-    singular: "Footer",
+    plural: "Headers",
+    singular: "Header",
   },
-  slug: "footer",
+  slug: "header",
 } as GlobalConfig;

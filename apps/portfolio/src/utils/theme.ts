@@ -52,6 +52,11 @@ export const theme: Theme = createTheme({
         LinkComponent: Link,
       },
     },
+    MuiLink: {
+      defaultProps: {
+        component: Link,
+      },
+    },
     MuiListItemButton: {
       defaultProps: {
         LinkComponent: Link,

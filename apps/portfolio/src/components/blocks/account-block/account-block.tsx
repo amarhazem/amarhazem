@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { type ReactNode, Suspense } from "react";
 import AccountMenu from "./account-menu";
 
-export default function Account(): ReactNode {
+export default function AccountBlock(): ReactNode {
   return (
     <>
       <Suspense

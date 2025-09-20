@@ -233,6 +233,10 @@ export default {
       type: "array",
     },
   ],
+  labels: {
+    plural: "Testimonials",
+    singular: "Testimonial",
+  },
   slug: "testimonials",
   versions: {
     drafts: true,

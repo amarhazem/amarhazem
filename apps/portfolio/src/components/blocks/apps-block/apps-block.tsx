@@ -11,7 +11,7 @@ import DesktopAppsMenu from "./desktop-apps-menu";
 import MobileApps from "./mobile-apps";
 import MobileAppsMenu from "./mobile-apps-menu";
 
-export default function Apps(): ReactNode {
+export default function AppsBlock(): ReactNode {
   return (
     <>
       <DesktopAppsMenu>

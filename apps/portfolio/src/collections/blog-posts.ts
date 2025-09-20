@@ -208,6 +208,10 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Blog Posts",
+    singular: "Blog Post",
+  },
   slug: "blog-posts",
   versions: {
     drafts: true,

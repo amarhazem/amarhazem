@@ -1,4 +1,4 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateDownArgs, MigrateUpArgs, sql } from "@payloadcms/db-postgres";
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
@@ -142,6 +142,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__users_v_version_role" AS ENUM('admin', 'author', 'contributor', 'editor', 'subscriber');
   CREATE TYPE "public"."enum__users_v_version_user_status" AS ENUM('active', 'inactive', 'pending', 'suspended');
   CREATE TYPE "public"."enum__users_v_version_status" AS ENUM('draft', 'published');
+  CREATE TYPE "public"."enum_footer_blocks_license_license_type" AS ENUM('apache', 'gpl', 'mit', 'proprietary');
   CREATE TYPE "public"."enum_site_settings_site_info_display_mode" AS ENUM('browser', 'fullscreen', 'minimal-ui', 'standalone');
   CREATE TYPE "public"."enum_site_settings_site_info_orientation" AS ENUM('any', 'landscape', 'portrait');
   CREATE TYPE "public"."enum_site_settings_appearance_font_family" AS ENUM('inter', 'lato', 'montserrat', 'open-sans', 'poppins', 'roboto');
@@ -165,7 +166,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_apps_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "_apps_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -185,14 +186,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "blog_posts_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "blog_posts" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"allow_comments" boolean DEFAULT true,
@@ -214,7 +215,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_blog_posts_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "blog_posts_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -223,7 +224,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"categories_id" integer,
   	"projects_id" integer
   );
-  
+
   CREATE TABLE "_blog_posts_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -231,7 +232,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_blog_posts_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -257,7 +258,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_blog_posts_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -266,7 +267,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"categories_id" integer,
   	"projects_id" integer
   );
-  
+
   CREATE TABLE "categories" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"name" varchar,
@@ -287,7 +288,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_categories_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "_categories_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -312,14 +313,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "companies_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "companies" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"active" boolean DEFAULT true,
@@ -345,7 +346,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_companies_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "companies_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -354,7 +355,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"testimonials_id" integer
   );
-  
+
   CREATE TABLE "_companies_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -362,7 +363,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_companies_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -392,7 +393,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_companies_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -401,7 +402,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"testimonials_id" integer
   );
-  
+
   CREATE TABLE "education_achievements" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -410,7 +411,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"date" timestamp(3) with time zone,
   	"description" varchar
   );
-  
+
   CREATE TABLE "education_coursework" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -419,14 +420,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"grade" varchar
   );
-  
+
   CREATE TABLE "education_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "education" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"active" boolean DEFAULT true,
@@ -447,7 +448,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_education_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "education_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -456,7 +457,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"skills_id" integer
   );
-  
+
   CREATE TABLE "_education_v_version_achievements" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -466,7 +467,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_education_v_version_coursework" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -476,7 +477,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"grade" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_education_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -484,7 +485,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_education_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -509,7 +510,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_education_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -518,7 +519,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"skills_id" integer
   );
-  
+
   CREATE TABLE "experience_achievements" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -527,7 +528,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"impact" varchar
   );
-  
+
   CREATE TABLE "experience_references" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -537,7 +538,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"phone" varchar,
   	"position" varchar
   );
-  
+
   CREATE TABLE "experience_responsibilities" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -545,14 +546,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"responsibility" varchar
   );
-  
+
   CREATE TABLE "experience_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "experience" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"active" boolean DEFAULT true,
@@ -576,7 +577,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_experience_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "experience_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -585,7 +586,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"skills_id" integer
   );
-  
+
   CREATE TABLE "_experience_v_version_achievements" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -595,7 +596,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"impact" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_experience_v_version_references" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -606,7 +607,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"position" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_experience_v_version_responsibilities" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -615,7 +616,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"responsibility" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_experience_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -623,7 +624,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_experience_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -651,7 +652,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_experience_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -660,7 +661,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"skills_id" integer
   );
-  
+
   CREATE TABLE "institutions_gallery" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -668,7 +669,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"caption" varchar,
   	"image_id" integer
   );
-  
+
   CREATE TABLE "institutions_social_media" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -676,14 +677,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"platform" "enum_institutions_social_media_platform",
   	"url" varchar
   );
-  
+
   CREATE TABLE "institutions_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "institutions" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"active" boolean DEFAULT true,
@@ -710,7 +711,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_institutions_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "_institutions_v_version_gallery" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -719,7 +720,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"image_id" integer,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_institutions_v_version_social_media" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -728,7 +729,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"url" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_institutions_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -736,7 +737,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_institutions_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -767,14 +768,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "media_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "media" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"alt" varchar,
@@ -786,6 +787,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"featured" boolean DEFAULT false,
   	"published" boolean DEFAULT true,
   	"usage_rights" "enum_media_usage_rights" DEFAULT 'all-rights',
+  	"prefix" varchar DEFAULT 'portfolio',
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_media_status" DEFAULT 'draft',
@@ -817,7 +819,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"sizes_thumbnail_filesize" numeric,
   	"sizes_thumbnail_filename" varchar
   );
-  
+
   CREATE TABLE "_media_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -825,7 +827,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_media_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -838,6 +840,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"version_featured" boolean DEFAULT false,
   	"version_published" boolean DEFAULT true,
   	"version_usage_rights" "enum__media_v_version_usage_rights" DEFAULT 'all-rights',
+  	"version_prefix" varchar DEFAULT 'portfolio',
   	"version_updated_at" timestamp(3) with time zone,
   	"version_created_at" timestamp(3) with time zone,
   	"version__status" "enum__media_v_version_status" DEFAULT 'draft',
@@ -872,7 +875,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "pages_blocks_about_additional_images" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -880,7 +883,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"caption" varchar,
   	"image_id" integer
   );
-  
+
   CREATE TABLE "pages_blocks_about_key_skills" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -888,7 +891,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"level" "enum_pages_blocks_about_key_skills_level" DEFAULT 'intermediate',
   	"skill" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_about_stats" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -897,7 +900,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"label" varchar,
   	"value" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_about" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -917,7 +920,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"subtitle" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_blog_posts" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -952,7 +955,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"cta_text" varchar DEFAULT 'View All Posts',
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_contact_links" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -962,7 +965,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"label" varchar,
   	"open_in_new_tab" boolean DEFAULT true
   );
-  
+
   CREATE TABLE "pages_blocks_contact" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -979,14 +982,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"phone" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_education_filter_options_education_types" (
   	"order" integer NOT NULL,
   	"parent_id" varchar NOT NULL,
   	"value" "enum_pages_blocks_education_filter_options_education_types",
   	"id" serial PRIMARY KEY NOT NULL
   );
-  
+
   CREATE TABLE "pages_blocks_education" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1014,7 +1017,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"timeline_options_style" "enum_pages_blocks_education_timeline_options_style" DEFAULT 'vertical',
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_experience" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1039,7 +1042,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"timeline_options_style" "enum_pages_blocks_experience_timeline_options_style" DEFAULT 'vertical',
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_hero_secondary_buttons" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -1049,7 +1052,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"open_in_new_tab" boolean DEFAULT false,
   	"style" "enum_pages_blocks_hero_secondary_buttons_style" DEFAULT 'secondary'
   );
-  
+
   CREATE TABLE "pages_blocks_hero" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1072,7 +1075,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_projects" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1087,7 +1090,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"heading" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_services" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1119,7 +1122,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"heading" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_skills" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1136,7 +1139,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"heading" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_blocks_testimonials" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1155,14 +1158,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"heading" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "pages_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "pages" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"author" varchar,
@@ -1182,7 +1185,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_pages_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "pages_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -1196,7 +1199,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"skills_id" integer,
   	"testimonials_id" integer
   );
-  
+
   CREATE TABLE "_pages_v_blocks_about_additional_images" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1205,7 +1208,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"image_id" integer,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_about_key_skills" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1214,7 +1217,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"skill" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_about_stats" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1224,7 +1227,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"value" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_about" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1245,7 +1248,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_blog_posts" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1281,7 +1284,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_contact_links" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1292,7 +1295,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"open_in_new_tab" boolean DEFAULT true,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_contact" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1310,14 +1313,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_education_filter_options_education_types" (
   	"order" integer NOT NULL,
   	"parent_id" integer NOT NULL,
   	"value" "enum__pages_v_blocks_education_filter_options_education_types",
   	"id" serial PRIMARY KEY NOT NULL
   );
-  
+
   CREATE TABLE "_pages_v_blocks_education" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1346,7 +1349,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_experience" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1372,7 +1375,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_hero_secondary_buttons" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1383,7 +1386,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"style" "enum__pages_v_blocks_hero_secondary_buttons_style" DEFAULT 'secondary',
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_hero" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1407,7 +1410,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_projects" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1423,7 +1426,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_services" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1456,7 +1459,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_skills" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1474,7 +1477,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_blocks_testimonials" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1494,7 +1497,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar,
   	"block_name" varchar
   );
-  
+
   CREATE TABLE "_pages_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1502,7 +1505,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_pages_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -1526,7 +1529,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_pages_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -1540,7 +1543,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"skills_id" integer,
   	"testimonials_id" integer
   );
-  
+
   CREATE TABLE "projects_gallery" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1548,7 +1551,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"caption" varchar,
   	"image_id" integer
   );
-  
+
   CREATE TABLE "projects_technologies" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1556,14 +1559,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"color" varchar,
   	"name" varchar
   );
-  
+
   CREATE TABLE "projects_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "projects" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"challenges" varchar,
@@ -1591,7 +1594,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_projects_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "_projects_v_version_gallery" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1600,7 +1603,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"image_id" integer,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_projects_v_version_technologies" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1609,7 +1612,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"name" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_projects_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1617,7 +1620,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_projects_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -1649,7 +1652,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "services_features" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1657,7 +1660,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"feature" varchar,
   	"description" varchar
   );
-  
+
   CREATE TABLE "services_process" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1667,14 +1670,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"duration" varchar
   );
-  
+
   CREATE TABLE "services_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "services" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"name" varchar,
@@ -1697,7 +1700,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_services_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "services_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -1707,7 +1710,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"testimonials_id" integer
   );
-  
+
   CREATE TABLE "_services_v_version_features" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1716,7 +1719,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"description" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_services_v_version_process" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1727,7 +1730,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"duration" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_services_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1735,7 +1738,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_services_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -1762,7 +1765,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_services_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -1772,7 +1775,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"projects_id" integer,
   	"testimonials_id" integer
   );
-  
+
   CREATE TABLE "skills_certifications" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1783,7 +1786,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"name" varchar,
   	"organization" varchar
   );
-  
+
   CREATE TABLE "skills_learning_resources" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1793,14 +1796,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"url" varchar,
   	"provider" varchar
   );
-  
+
   CREATE TABLE "skills_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "skills" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"active" boolean DEFAULT true,
@@ -1818,7 +1821,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_skills_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "skills_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -1826,7 +1829,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"path" varchar NOT NULL,
   	"projects_id" integer
   );
-  
+
   CREATE TABLE "_skills_v_version_certifications" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1838,7 +1841,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"organization" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_skills_v_version_learning_resources" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1849,7 +1852,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"provider" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_skills_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1857,7 +1860,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_skills_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -1879,7 +1882,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_skills_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -1887,7 +1890,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"path" varchar NOT NULL,
   	"projects_id" integer
   );
-  
+
   CREATE TABLE "social_networks" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"active" boolean DEFAULT true,
@@ -1907,7 +1910,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_social_networks_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "_social_networks_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -1931,14 +1934,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "testimonials_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar
   );
-  
+
   CREATE TABLE "testimonials" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"client_name" varchar,
@@ -1965,7 +1968,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"_status" "enum_testimonials_status" DEFAULT 'draft'
   );
-  
+
   CREATE TABLE "_testimonials_v_version_tags" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -1973,7 +1976,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"tag" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_testimonials_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -2004,7 +2007,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "users_social_links" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -2012,7 +2015,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"platform" varchar,
   	"url" varchar
   );
-  
+
   CREATE TABLE "users_sessions" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -2020,7 +2023,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone,
   	"expires_at" timestamp(3) with time zone
   );
-  
+
   CREATE TABLE "users" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"avatar_id" integer,
@@ -2035,7 +2038,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"phone" varchar,
   	"preferences_email_notifications" boolean DEFAULT true,
   	"preferences_language" "enum_users_preferences_language" DEFAULT 'en',
-  	"preferences_timezone" varchar DEFAULT 'UTC',
   	"role" "enum_users_role" DEFAULT 'subscriber',
   	"user_status" "enum_users_user_status" DEFAULT 'active',
   	"website" varchar,
@@ -2050,7 +2052,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"login_attempts" numeric DEFAULT 0,
   	"lock_until" timestamp(3) with time zone
   );
-  
+
   CREATE TABLE "_users_v_version_social_links" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -2059,7 +2061,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"url" varchar,
   	"_uuid" varchar
   );
-  
+
   CREATE TABLE "_users_v_version_sessions" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -2068,7 +2070,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone,
   	"expires_at" timestamp(3) with time zone
   );
-  
+
   CREATE TABLE "_users_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
@@ -2084,7 +2086,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"version_phone" varchar,
   	"version_preferences_email_notifications" boolean DEFAULT true,
   	"version_preferences_language" "enum__users_v_version_preferences_language" DEFAULT 'en',
-  	"version_preferences_timezone" varchar DEFAULT 'UTC',
   	"version_role" "enum__users_v_version_role" DEFAULT 'subscriber',
   	"version_user_status" "enum__users_v_version_user_status" DEFAULT 'active',
   	"version_website" varchar,
@@ -2102,14 +2103,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "payload_locked_documents" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"global_slug" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "payload_locked_documents_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -2131,7 +2132,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"testimonials_id" integer,
   	"users_id" integer
   );
-  
+
   CREATE TABLE "payload_preferences" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"key" varchar,
@@ -2139,7 +2140,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "payload_preferences_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -2147,7 +2148,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"path" varchar NOT NULL,
   	"users_id" integer
   );
-  
+
   CREATE TABLE "payload_migrations" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"name" varchar,
@@ -2155,7 +2156,106 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
+  CREATE TABLE "footer_blocks_brand" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"app_name" varchar NOT NULL,
+  	"logo_id" integer,
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "footer_blocks_license" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"license_type" "enum_footer_blocks_license_license_type" DEFAULT 'mit',
+  	"license_text" varchar,
+  	"license_url" varchar,
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "footer_blocks_spacer" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"spacer" varchar DEFAULT 'spacer',
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "footer_blocks_version" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"version_number" varchar NOT NULL,
+  	"changelog_url" varchar NOT NULL,
+  	"link_text" varchar DEFAULT 'View changelog',
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "footer" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+
+  CREATE TABLE "header_blocks_account" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"account" varchar DEFAULT 'account',
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "header_blocks_apps_block" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"apps" varchar DEFAULT 'apps',
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "header_blocks_brand" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"app_name" varchar NOT NULL,
+  	"logo_id" integer,
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "header_blocks_spacer" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"spacer" varchar DEFAULT 'spacer',
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "header_blocks_social_networks_block" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"social_networks" varchar DEFAULT 'social-networks',
+  	"block_name" varchar
+  );
+
+  CREATE TABLE "header" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+
   CREATE TABLE "site_settings" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"site_info_site_name" varchar,
@@ -2186,7 +2286,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
-  
+
   CREATE TABLE "site_settings_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -2195,7 +2295,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"social_networks_id" integer,
   	"pages_id" integer
   );
-  
+
   CREATE TABLE "_site_settings_v" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"version_site_info_site_name" varchar,
@@ -2229,7 +2329,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
   );
-  
+
   CREATE TABLE "_site_settings_v_rels" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"order" integer,
@@ -2238,7 +2338,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"social_networks_id" integer,
   	"pages_id" integer
   );
-  
+
   ALTER TABLE "_apps_v" ADD CONSTRAINT "_apps_v_parent_id_apps_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."apps"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "blog_posts_tags" ADD CONSTRAINT "blog_posts_tags_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."blog_posts"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "blog_posts" ADD CONSTRAINT "blog_posts_author_id_users_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;
@@ -2458,6 +2558,17 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_preferences_rels" ADD CONSTRAINT "payload_preferences_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."payload_preferences"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_preferences_rels" ADD CONSTRAINT "payload_preferences_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "footer_blocks_brand" ADD CONSTRAINT "footer_blocks_brand_logo_id_media_id_fk" FOREIGN KEY ("logo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "footer_blocks_brand" ADD CONSTRAINT "footer_blocks_brand_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "footer_blocks_license" ADD CONSTRAINT "footer_blocks_license_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "footer_blocks_spacer" ADD CONSTRAINT "footer_blocks_spacer_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "footer_blocks_version" ADD CONSTRAINT "footer_blocks_version_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."footer"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "header_blocks_account" ADD CONSTRAINT "header_blocks_account_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "header_blocks_apps_block" ADD CONSTRAINT "header_blocks_apps_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "header_blocks_brand" ADD CONSTRAINT "header_blocks_brand_logo_id_media_id_fk" FOREIGN KEY ("logo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "header_blocks_brand" ADD CONSTRAINT "header_blocks_brand_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "header_blocks_spacer" ADD CONSTRAINT "header_blocks_spacer_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "header_blocks_social_networks_block" ADD CONSTRAINT "header_blocks_social_networks_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "site_settings" ADD CONSTRAINT "site_settings_site_info_site_logo_id_media_id_fk" FOREIGN KEY ("site_info_site_logo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "site_settings" ADD CONSTRAINT "site_settings_site_info_favicon_id_media_id_fk" FOREIGN KEY ("site_info_favicon_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "site_settings_rels" ADD CONSTRAINT "site_settings_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."site_settings"("id") ON DELETE cascade ON UPDATE no action;
@@ -2990,6 +3101,35 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_preferences_rels_users_id_idx" ON "payload_preferences_rels" USING btree ("users_id");
   CREATE INDEX "payload_migrations_updated_at_idx" ON "payload_migrations" USING btree ("updated_at");
   CREATE INDEX "payload_migrations_created_at_idx" ON "payload_migrations" USING btree ("created_at");
+  CREATE INDEX "footer_blocks_brand_order_idx" ON "footer_blocks_brand" USING btree ("_order");
+  CREATE INDEX "footer_blocks_brand_parent_id_idx" ON "footer_blocks_brand" USING btree ("_parent_id");
+  CREATE INDEX "footer_blocks_brand_path_idx" ON "footer_blocks_brand" USING btree ("_path");
+  CREATE INDEX "footer_blocks_brand_logo_idx" ON "footer_blocks_brand" USING btree ("logo_id");
+  CREATE INDEX "footer_blocks_license_order_idx" ON "footer_blocks_license" USING btree ("_order");
+  CREATE INDEX "footer_blocks_license_parent_id_idx" ON "footer_blocks_license" USING btree ("_parent_id");
+  CREATE INDEX "footer_blocks_license_path_idx" ON "footer_blocks_license" USING btree ("_path");
+  CREATE INDEX "footer_blocks_spacer_order_idx" ON "footer_blocks_spacer" USING btree ("_order");
+  CREATE INDEX "footer_blocks_spacer_parent_id_idx" ON "footer_blocks_spacer" USING btree ("_parent_id");
+  CREATE INDEX "footer_blocks_spacer_path_idx" ON "footer_blocks_spacer" USING btree ("_path");
+  CREATE INDEX "footer_blocks_version_order_idx" ON "footer_blocks_version" USING btree ("_order");
+  CREATE INDEX "footer_blocks_version_parent_id_idx" ON "footer_blocks_version" USING btree ("_parent_id");
+  CREATE INDEX "footer_blocks_version_path_idx" ON "footer_blocks_version" USING btree ("_path");
+  CREATE INDEX "header_blocks_account_order_idx" ON "header_blocks_account" USING btree ("_order");
+  CREATE INDEX "header_blocks_account_parent_id_idx" ON "header_blocks_account" USING btree ("_parent_id");
+  CREATE INDEX "header_blocks_account_path_idx" ON "header_blocks_account" USING btree ("_path");
+  CREATE INDEX "header_blocks_apps_block_order_idx" ON "header_blocks_apps_block" USING btree ("_order");
+  CREATE INDEX "header_blocks_apps_block_parent_id_idx" ON "header_blocks_apps_block" USING btree ("_parent_id");
+  CREATE INDEX "header_blocks_apps_block_path_idx" ON "header_blocks_apps_block" USING btree ("_path");
+  CREATE INDEX "header_blocks_brand_order_idx" ON "header_blocks_brand" USING btree ("_order");
+  CREATE INDEX "header_blocks_brand_parent_id_idx" ON "header_blocks_brand" USING btree ("_parent_id");
+  CREATE INDEX "header_blocks_brand_path_idx" ON "header_blocks_brand" USING btree ("_path");
+  CREATE INDEX "header_blocks_brand_logo_idx" ON "header_blocks_brand" USING btree ("logo_id");
+  CREATE INDEX "header_blocks_spacer_order_idx" ON "header_blocks_spacer" USING btree ("_order");
+  CREATE INDEX "header_blocks_spacer_parent_id_idx" ON "header_blocks_spacer" USING btree ("_parent_id");
+  CREATE INDEX "header_blocks_spacer_path_idx" ON "header_blocks_spacer" USING btree ("_path");
+  CREATE INDEX "header_blocks_social_networks_block_order_idx" ON "header_blocks_social_networks_block" USING btree ("_order");
+  CREATE INDEX "header_blocks_social_networks_block_parent_id_idx" ON "header_blocks_social_networks_block" USING btree ("_parent_id");
+  CREATE INDEX "header_blocks_social_networks_block_path_idx" ON "header_blocks_social_networks_block" USING btree ("_path");
   CREATE INDEX "site_settings_site_info_site_info_site_logo_idx" ON "site_settings" USING btree ("site_info_site_logo_id");
   CREATE INDEX "site_settings_site_info_site_info_favicon_idx" ON "site_settings" USING btree ("site_info_favicon_id");
   CREATE INDEX "site_settings__status_idx" ON "site_settings" USING btree ("_status");
@@ -3008,10 +3148,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "_site_settings_v_rels_parent_idx" ON "_site_settings_v_rels" USING btree ("parent_id");
   CREATE INDEX "_site_settings_v_rels_path_idx" ON "_site_settings_v_rels" USING btree ("path");
   CREATE INDEX "_site_settings_v_rels_social_networks_id_idx" ON "_site_settings_v_rels" USING btree ("social_networks_id");
-  CREATE INDEX "_site_settings_v_rels_pages_id_idx" ON "_site_settings_v_rels" USING btree ("pages_id");`)
+  CREATE INDEX "_site_settings_v_rels_pages_id_idx" ON "_site_settings_v_rels" USING btree ("pages_id");`);
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({
+  db,
+  payload,
+  req,
+}: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    DROP TABLE "apps" CASCADE;
   DROP TABLE "_apps_v" CASCADE;
@@ -3146,6 +3290,17 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "payload_preferences" CASCADE;
   DROP TABLE "payload_preferences_rels" CASCADE;
   DROP TABLE "payload_migrations" CASCADE;
+  DROP TABLE "footer_blocks_brand" CASCADE;
+  DROP TABLE "footer_blocks_license" CASCADE;
+  DROP TABLE "footer_blocks_spacer" CASCADE;
+  DROP TABLE "footer_blocks_version" CASCADE;
+  DROP TABLE "footer" CASCADE;
+  DROP TABLE "header_blocks_account" CASCADE;
+  DROP TABLE "header_blocks_apps_block" CASCADE;
+  DROP TABLE "header_blocks_brand" CASCADE;
+  DROP TABLE "header_blocks_spacer" CASCADE;
+  DROP TABLE "header_blocks_social_networks_block" CASCADE;
+  DROP TABLE "header" CASCADE;
   DROP TABLE "site_settings" CASCADE;
   DROP TABLE "site_settings_rels" CASCADE;
   DROP TABLE "_site_settings_v" CASCADE;
@@ -3290,6 +3445,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum__users_v_version_role";
   DROP TYPE "public"."enum__users_v_version_user_status";
   DROP TYPE "public"."enum__users_v_version_status";
+  DROP TYPE "public"."enum_footer_blocks_license_license_type";
   DROP TYPE "public"."enum_site_settings_site_info_display_mode";
   DROP TYPE "public"."enum_site_settings_site_info_orientation";
   DROP TYPE "public"."enum_site_settings_appearance_font_family";
@@ -3297,5 +3453,5 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum__site_settings_v_version_site_info_display_mode";
   DROP TYPE "public"."enum__site_settings_v_version_site_info_orientation";
   DROP TYPE "public"."enum__site_settings_v_version_appearance_font_family";
-  DROP TYPE "public"."enum__site_settings_v_version_status";`)
+  DROP TYPE "public"."enum__site_settings_v_version_status";`);
 }

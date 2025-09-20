@@ -10,7 +10,7 @@ import DesktopSocialNetworks from "./desktop-social-networks";
 import MobileSocialNetworks from "./mobile-social-networks";
 import MobileSocialNetworksMenu from "./mobile-social-networks-menu";
 
-export default function SocialNetworks(): ReactNode {
+export default function SocialNetworksBlock(): ReactNode {
   return (
     <>
       <Box

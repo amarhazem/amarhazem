@@ -231,6 +231,10 @@ export default {
       type: "number",
     },
   ],
+  labels: {
+    plural: "Skills",
+    singular: "Skill",
+  },
   slug: "skills",
   versions: {
     drafts: true,

@@ -260,6 +260,10 @@ export default {
       type: "text",
     },
   ],
+  labels: {
+    plural: "Companies",
+    singular: "Company",
+  },
   slug: "companies",
   versions: {
     drafts: true,
