@@ -11,7 +11,7 @@ import Skills from "../blocks/skills";
 import Testimonials from "../blocks/testimonials";
 import slugify from "../utils/slugify";
 
-export const Pages: CollectionConfig = {
+export default {
   access: {
     create: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
@@ -207,4 +207,4 @@ export const Pages: CollectionConfig = {
   versions: {
     drafts: true,
   },
-};
+} as CollectionConfig;

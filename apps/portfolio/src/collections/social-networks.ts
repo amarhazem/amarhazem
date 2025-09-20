@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 
-export const SocialNetworks: CollectionConfig = {
+export default {
   access: {
     create: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
@@ -139,4 +139,4 @@ export const SocialNetworks: CollectionConfig = {
   versions: {
     drafts: true,
   },
-};
+} as CollectionConfig;

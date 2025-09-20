@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 import slugify from "../utils/slugify";
 
-export const BlogPosts: CollectionConfig = {
+export default {
   access: {
     create: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
@@ -212,4 +212,4 @@ export const BlogPosts: CollectionConfig = {
   versions: {
     drafts: true,
   },
-};
+} as CollectionConfig;
