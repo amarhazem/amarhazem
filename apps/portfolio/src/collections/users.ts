@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 
-export const Users: CollectionConfig = {
+export default {
   access: {
     create: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
@@ -217,4 +217,4 @@ export const Users: CollectionConfig = {
   versions: {
     drafts: true,
   },
-};
+} as CollectionConfig;

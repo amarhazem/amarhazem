@@ -1,4 +1,4 @@
-import PageRenderer from "@/components/page-renderer";
+import PageRenderer from "@/components/page/page";
 import { getPageBySlug } from "@/data/pages";
 import payload from "@/utils/payload";
 import { notFound } from "next/navigation";

@@ -1,7 +1,9 @@
 import Account from "@/components/account/account";
 import Apps from "@/components/apps/apps";
+import Footer from "@/components/footer/footer";
 import SocialNetworks from "@/components/social-networks/social-networks";
-import { env } from "@/utils/env";
+import env from "@/utils/env";
+import payload from "@/utils/payload";
 import { theme } from "@/utils/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import AppBar from "@mui/material/AppBar";
@@ -20,6 +22,7 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   description: "Amar Hazem | Full Stack Engineer",
+  metadataBase: new URL(env.CMS_URL),
   openGraph: {
     description: "Amar Hazem | Full Stack Engineer",
     images: [
@@ -62,6 +65,9 @@ export default async function RootLayout({
   children,
 }: RootLayoutProps): Promise<ReactNode> {
   const shouldInjectToolbar = env.NODE_ENV === "development";
+  const footerData = await payload.findGlobal({
+    slug: "footer",
+  });
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -102,6 +108,7 @@ export default async function RootLayout({
             <Box component="main" sx={{ flexGrow: 1 }}>
               {children}
             </Box>
+            <Footer footerData={footerData} />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

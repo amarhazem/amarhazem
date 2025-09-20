@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 
-export const Experience: CollectionConfig = {
+export default {
   access: {
     create: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
@@ -303,4 +303,4 @@ export const Experience: CollectionConfig = {
   versions: {
     drafts: true,
   },
-};
+} as CollectionConfig;

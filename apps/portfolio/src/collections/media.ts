@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 
-export const Media: CollectionConfig = {
+export default {
   access: {
     create: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
@@ -154,4 +154,4 @@ export const Media: CollectionConfig = {
   versions: {
     drafts: true,
   },
-};
+} as CollectionConfig;

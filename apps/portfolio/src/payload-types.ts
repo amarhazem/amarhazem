@@ -65,7 +65,13 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    brand: Brand;
+    hero: Hero;
+    license: License;
+    spacer: Spacer;
+    version: Version;
+  };
   collections: {
     apps: App;
     'blog-posts': BlogPost;
@@ -111,9 +117,11 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
+    footer: Footer;
     'site-settings': SiteSetting;
   };
   globalsSelect: {
+    footer: FooterSelect<false> | FooterSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
@@ -142,6 +150,217 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brand".
+ */
+export interface Brand {
+  appName: string;
+  logo?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'brand';
+}
+/**
+ * Manage media files
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Alternative text for accessibility
+   */
+  alt: string;
+  /**
+   * Optional caption for the media
+   */
+  caption?: string | null;
+  /**
+   * Media category for organization
+   */
+  category?: ('documents' | 'icons' | 'images' | 'logos' | 'other' | 'videos') | null;
+  /**
+   * Copyright information
+   */
+  copyright?: string | null;
+  /**
+   * Name of the photographer or content creator
+   */
+  creator?: string | null;
+  /**
+   * Detailed description of the media content
+   */
+  description?: string | null;
+  /**
+   * Mark as featured media
+   */
+  featured?: boolean | null;
+  /**
+   * Make this media available for use
+   */
+  published?: boolean | null;
+  /**
+   * Tags to organize and search media
+   */
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Usage rights for this media
+   */
+  usageRights?: ('all-rights' | 'creative-commons' | 'custom' | 'fair-use' | 'public-domain') | null;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero".
+ */
+export interface Hero {
+  /**
+   * ID for navigation
+   */
+  anchorId?: string | null;
+  animation?: {
+    /**
+     * Delay before animation starts in milliseconds
+     */
+    delay?: number | null;
+    type?: ('none' | 'fadeIn' | 'slideDown' | 'slideUp' | 'zoomIn') | null;
+  };
+  /**
+   * Hexadecimal background color
+   */
+  backgroundColor?: string | null;
+  /**
+   * Background image for hero section (optional)
+   */
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Background video (optional, replaces image)
+   */
+  backgroundVideo?: (number | null) | Media;
+  /**
+   * Main action button (optional)
+   */
+  cta: {
+    href: string;
+    openInNewTab?: boolean | null;
+    style?: ('outlined' | 'primary' | 'secondary') | null;
+    label: string;
+  };
+  /**
+   * Custom hexadecimal color
+   */
+  customTextColor?: string | null;
+  /**
+   * Additional buttons (optional)
+   */
+  secondaryButtons?:
+    | {
+        href: string;
+        label: string;
+        openInNewTab?: boolean | null;
+        style?: ('outlined' | 'primary' | 'secondary') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Subtitle or short description
+   */
+  subtitle?: string | null;
+  /**
+   * Text content alignment
+   */
+  textAlign?: ('center' | 'left' | 'right') | null;
+  /**
+   * Main text color
+   */
+  textColor?: ('black' | 'custom' | 'white') | null;
+  /**
+   * Main title of the hero section
+   */
+  title: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "license".
+ */
+export interface License {
+  licenseType?: ('apache' | 'gpl' | 'mit' | 'proprietary') | null;
+  licenseText?: string | null;
+  licenseUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'license';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "spacer".
+ */
+export interface Spacer {
+  spacer?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'spacer';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "version".
+ */
+export interface Version {
+  versionNumber: string;
+  changelogUrl: string;
+  linkText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'version';
 }
 /**
  * Manage external applications and services
@@ -410,99 +629,6 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-}
-/**
- * Manage media files
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  /**
-   * Alternative text for accessibility
-   */
-  alt: string;
-  /**
-   * Optional caption for the media
-   */
-  caption?: string | null;
-  /**
-   * Media category for organization
-   */
-  category?: ('documents' | 'icons' | 'images' | 'logos' | 'other' | 'videos') | null;
-  /**
-   * Copyright information
-   */
-  copyright?: string | null;
-  /**
-   * Name of the photographer or content creator
-   */
-  creator?: string | null;
-  /**
-   * Detailed description of the media content
-   */
-  description?: string | null;
-  /**
-   * Mark as featured media
-   */
-  featured?: boolean | null;
-  /**
-   * Make this media available for use
-   */
-  published?: boolean | null;
-  /**
-   * Tags to organize and search media
-   */
-  tags?:
-    | {
-        tag: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Usage rights for this media
-   */
-  usageRights?: ('all-rights' | 'creative-commons' | 'custom' | 'fair-use' | 'public-domain') | null;
-  prefix?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    tablet?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * Manage content categories
@@ -3720,6 +3846,48 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  blocks?:
+    | (
+        | {
+            appName: string;
+            logo?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'brand';
+          }
+        | {
+            licenseType?: ('apache' | 'gpl' | 'mit' | 'proprietary') | null;
+            licenseText?: string | null;
+            licenseUrl?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'license';
+          }
+        | {
+            spacer?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'spacer';
+          }
+        | {
+            versionNumber: string;
+            changelogUrl: string;
+            linkText?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'version';
+          }
+      )[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
@@ -3847,6 +4015,52 @@ export interface SiteSetting {
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  blocks?:
+    | T
+    | {
+        brand?:
+          | T
+          | {
+              appName?: T;
+              logo?: T;
+              id?: T;
+              blockName?: T;
+            };
+        license?:
+          | T
+          | {
+              licenseType?: T;
+              licenseText?: T;
+              licenseUrl?: T;
+              id?: T;
+              blockName?: T;
+            };
+        spacer?:
+          | T
+          | {
+              spacer?: T;
+              id?: T;
+              blockName?: T;
+            };
+        version?:
+          | T
+          | {
+              versionNumber?: T;
+              changelogUrl?: T;
+              linkText?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

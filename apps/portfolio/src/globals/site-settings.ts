@@ -1,6 +1,6 @@
 import type { GlobalConfig } from "payload";
 
-export const SiteSettings: GlobalConfig = {
+export default {
   access: {
     read: () => true,
     update: ({ req }) => !!req.user,
@@ -306,4 +306,4 @@ export const SiteSettings: GlobalConfig = {
   versions: {
     drafts: true,
   },
-};
+} as GlobalConfig;
